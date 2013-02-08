@@ -1,0 +1,3171 @@
+layerinfo "type" = "layout";
+layerinfo "name" = "Chameleon";
+layerinfo redist_uniq = "chameleon/layout";
+layerinfo previews = "chameleon/layout.jpg";
+
+propgroup presentation { 
+    
+    property string layout_type {
+        des = "Layout Type";
+        values = "2CR|Sidebar on Right|2CL|Sidebar on Left";
+        }
+        set layout_type = "2CL";    
+
+    property string page_layout {
+        des = "Page layout";
+        values = "default|Default|headerin_alpha|Header in alpha";
+        noui = 1;
+        }
+        set page_layout = "default";
+
+    property string header_layout {
+        des = "Header layout";
+        values = "default|Default|layout_custom|Custom";
+        noui = 1;
+        }
+        set header_layout = "default";
+
+    property string entry_layout {
+        des = "Entry layout";
+        values = "default|Default|title_date|Title first|user_date_title|User first";
+        noui = 1;
+        }
+        set entry_layout = "default";
+
+    property string author_layout {
+        des = "Author layout in entry";
+        values = "default|Default|username_first|Username first";
+        noui = 1;
+        }
+        set author_layout = "default";
+
+    property string widget_layout {
+        des = "Widget layout";
+        values = "default|Default";
+        noui = 1;
+        }
+        set widget_layout = "default";
+        
+    property bool hide_comment_controls { 
+        des = "Hide control buttons (Delete, Spam, Freeze, etc.) that appear in the comment header when you move the mouse over it";
+        noui = 1;
+        } 
+        set hide_comment_controls = true;
+        
+    property bool show_title_on_tagpage {
+        des = " Show tag’s names in the title of the page with entries by tags";
+        }
+        set show_title_on_tagpage = true; 
+
+    property use page_recent_items;
+    property use page_friends_items;
+    property use view_entry_disabled;
+
+    # --------------- Hidden options ---------------
+
+    property bool linkbar_buttons_in_entry {
+        des = " Show linkbar as buttons on page with entry";
+        noui = 1; 
+        }
+        set linkbar_buttons_in_entry = true; 
+
+    property MonthPage _MonthPage {    noui = 1; }
+    property RecentPage _RecentPage { noui = 1;    }
+    property FriendsPage _FriendsPage { noui = 1; }
+    property DayPage _DayPage { noui = 1; }
+    property TagsPage _TagsPage { noui = 1; }
+    property YearPage _YearPage { noui = 1; }
+    property ReplyPage _ReplyPage { noui = 1; }
+    property EntryPage _EntryPage { noui = 1; }
+
+    property string prev_url { 
+        noui = 1; 
+        } 
+    property string next_url { 
+        noui = 1; 
+        } 
+    property string prev_text { 
+        noui = 1; 
+        } 
+    property string next_text { 
+        noui = 1; 
+        } 
+    property string base_url { 
+        noui = 1; 
+        } 
+    property string body_class {
+        noui = 1;
+        } 
+    property string header_class {
+        noui = 1;
+        }
+    property string beta_class {
+        noui = 1;
+        }
+    property int calendar_columns_counter {
+        noui = 1;
+        }
+        set calendar_columns_counter = 1;    
+
+    # --------------- 'Designed by' options ---------------    
+
+    property string designedby_place {
+        des = "Place for author link";
+        values = "sidebar|Sidebar|footer|Footer";
+        noui = 1;
+        }
+        set designedby_place = "sidebar";
+
+    property string designedby_name {
+        des = "Author name";
+        noui = 1;
+        }
+
+    property string designedby_url {
+        des = "External url for not lj-users";
+        noui = 1;
+        }   
+
+    property string designedby_text {
+        des = "Designed by text";
+        noui = 1;
+        }    
+        set designedby_text = "Designed by";
+    
+    property string designedby_customhtml {
+        des = "Custom Html for block Designed by";
+        string_mode = "html";
+        noui = 1;
+        }        
+}
+
+propgroup page = "Page";
+propgroup page {
+
+    # --------------- Options for page width ---------------
+
+    property string page_width_type { 
+        des = "Type of page width";
+        values = "fixed|Fixed|flexible|Flexible";
+        note = "This affects the view of your journal on screens of different widths";
+        noui = 1;
+        } 
+        set page_width_type = "flexible";
+
+
+    property string fixed_page_width { 
+        des = "Fixed page width";
+        note = "Available for Fixed type of the page width only. Type the width in px";
+        noui = 1;
+        } 
+        set fixed_page_width = "1000px";
+
+    property string min_page_width { 
+        des = "Min page width";
+        note = "Available for Flexible type of the page width only. Defines the min width of your journal for small screens. Type the min width in px";
+        noui = 1;
+        }
+        set min_page_width = "900px";
+            
+    property string max_page_width { 
+        des = "Max page width";
+        note = "Available for Flexible type of the page width only. Defines the max width of your journal for large screens. Type the max width in px";
+        noui = 1;
+        }   
+        set max_page_width = "1200px";  
+
+    property string sidebar_width { 
+        des = "Sidebar width";
+        note = "Sets the width of the sidebar in your journal. Type the width in px";
+        noui = 1;
+        }
+        set sidebar_width = "220px";
+
+    # ---- used if sidebar_width is empty ----   
+
+    property string default_sidebar_width { 
+        des = "Default sidebar width";
+        noui = 1;
+        }  
+        set default_sidebar_width = "220px";       
+
+    property string space_between_blocks { 
+        des = "Space between feed and sidebar";
+        noui = 1;
+        }  
+        set space_between_blocks = "30";    
+
+    property bool alpha_full_width { 
+        des = "If alpha full width";
+        noui = 1;
+        }
+        set alpha_full_width = false;           
+
+    # --------------- Options for page background ---------------
+
+    property OptionsDelimeter delim_bg_page {
+        des = "Background of the page";
+        noui = 1;
+        }
+
+    property string body_bgcolor { 
+        des = "Background color of the page";
+        note = "Type the hex color that will be set as the color of your journal’s background";
+        noui = 1;
+        } 
+
+    property string body_image_url { 
+        des = "Background image URL";
+        note = "Enter a link to the image that will be set as your journal’s background";
+        noui = 1;
+        } 
+    
+    property string body_image_position { 
+        des = "Position of the background image";
+        values = "center center|Center|left top|Left top|center top|Center top|right top|Right top|right center|Right center|right bottom|Right bottom|center bottom|Center bottom|left bottom|Left bottom|left center|Left center";
+        note = "Set a position of the background image on the screen";
+        noui = 1;
+        }
+        set body_image_position = "center_top";     
+
+    property string body_image_repeat { 
+        des = "Repeating the background image";
+        values = "repeat|Repeat|no-repeat|No repeat|repeat-x|Repeat by horizontal|repeat-y|Repeat by vertical";
+        note = "Allows to repeat your background image";
+        noui = 1;
+        } 
+        set body_image_repeat = "repeat";
+ 
+    property string body_image_attachment { 
+        des = "Scrolling the background image";
+        values = "fixed|Fixed|scroll|Scroll";
+        note = "You can either fix the background image so it won’t move while scrolling the page or allow it to scroll";
+        noui = 1;
+        }
+        set body_image_attachment = "fixed";       
+
+    # --------------- Options for feed background ---------------
+
+    property OptionsDelimeter delim_bg_feed {
+        des = "Background of the feed";
+        noui = 1;
+        }
+
+    property string feed_bgcolor { 
+        des = "Background color of the feed";
+        note = "Type the hex color that will be set as the color of your feed’s background";
+        noui = 1;
+        } 
+
+    property string feed_image_url { 
+        des = "Background image in your feed URL";
+        note = "Enter a link to the image that will be set as your feed’s background";
+        noui = 1;
+        } 
+
+    property string feed_image_position { 
+        des = "Position of the background image of the feed";
+        values = "center center|Center|left top|Left top|center top|Center top|right top|Right top|right center|Right center|right bottom|Right bottom|center bottom|Center bottom|left bottom|Left bottom|left center|Left center";
+        note = "Set a position of the background image of the feed";
+        noui = 1;
+        }
+        set feed_image_position = "center_top";          
+    
+    property string feed_image_repeat { 
+        des = "Repeat the background image of the feed";
+        values = "repeat|Repeat|no-repeat|No repeat|repeat-x|Repeat by horizontal|repeat-y|Repeat by vertical";
+        note = "Allows to repeat your background image";
+        noui = 1;
+        } 
+        set feed_image_repeat = "repeat";
+
+}
+
+propgroup header = "Header";
+propgroup header {
+    
+    # --------------- Options for header image ---------------
+
+    property string header_image_url { 
+        des = "URL to the image used in the header";
+        note = "This option helps to set the position of the image in the header";
+        noui = 1;
+        } 
+        set header_image_url = "";
+
+    property string header_image_position { 
+        des = "Position of the image";
+        values = "center center|Center|left top|Left top|center top|Center top|right top|Right top|right center|Right center|right bottom|Right bottom|center bottom|Center bottom|left bottom|Left bottom|left center|Left center";
+        note = "This option affects on the position of image at the background of the header";
+        noui = 1;
+        } 
+        set header_image_position = "center";
+            
+    property string header_image_repeat { 
+        des = "Repeat the header image";
+        values = "repeat|Repeat|no-repeat|No repeat|repeat-x|Repeat by horizontal|repeat-y|Repeat by vertical";
+        note = "This option allows to repeat the header image";
+        noui = 1;
+        }
+        set header_image_repeat = "repeat"; 
+            
+    property string header_image_height { 
+        des = "Height of the image in px ";
+        note = "Type here the height of your header image. By default it is 200px";
+        noui = 1;
+        } 
+
+    property OptionsDelimeter delim_header_advanced {
+        des = "Advanced options";
+        noui = 1;
+        }  
+
+    property string header_image_place { 
+        des = "Position of the image in relation to other header elements";
+        values = "top|Top|middle|Middle|bottom|Bottom";
+        note = "This option affects the position of the image towards other elements of your journal header (title, subtitle, description, menu)";
+        noui = 1;
+        } 
+        set header_image_place = "top";   
+
+    property string menu_position {
+        des = "Position of the menu";
+        values = "inheader_top|In header on top|inheader_bottom|In header on bottom|in_beta|In sidebar";
+        note = "This option affects the position of the menu. If the menu is placed in the header, then it will affect the disposition of the image used in the header";
+        noui = 1;
+        }
+        set menu_position = "inheader_top";    
+
+    property bool hide_upic_in_header { 
+        des = "Hide userpic in the header";
+        note = "This option disables userpic in the header";
+        } 
+        set hide_upic_in_header = false;     
+
+    # --------------- Options for userpic in header ---------------
+        
+    property string header_upic_position { 
+        des = "Position of userpic in header";
+        values = "in_vcard|In vcard|first_in_header|First in header";
+        noui = 1;
+        }     
+        set header_upic_position = "in_vcard";
+
+}
+
+propgroup menu = "Menu";
+propgroup menu {    
+        
+    property string text_nav_recent { 
+        des = "Text used to link to the 'Recent Entries' view";
+        } 
+        set text_nav_recent = "Recent Entries";
+        
+    property string text_nav_friends { 
+        des = "Text used to link to the 'Friends' view";
+        } 
+        set text_nav_friends = "Friends";
+        
+    property string text_nav_userinfo { 
+        des = "Text used to link to the 'Profile' view";
+        } 
+        set text_nav_userinfo = "Profile";
+    
+    property string text_nav_archive { 
+        des = "Text used to link to the 'Archive' view";
+        } 
+        set text_nav_archive = "Archive";
+
+    property string text_nav_memories { 
+        des = "Text used to link to the 'Memories' view";
+        } 
+        set text_nav_memories = "Memories";
+        
+    property string text_nav_tags { 
+        des = "Text used to link to the 'Tags' view";
+        } 
+        set text_nav_tags = "Tags";
+
+}
+
+propgroup social_networks = "Social networks";
+propgroup social_networks {
+
+    property string place_sn_links { 
+        des = "Place for links to social networks";
+        values = "profile|Profile widget|header|Header";
+        note = "This affects the position of links to your social networks";
+        } 
+        set place_sn_links = "header";
+
+    property string sn_icons_size { 
+        des = "Display of links to social network";
+        values = "small|Small icons|big|Big icons|text|Icons with text";
+        note = "Determines the view of links to your social networks will be displayed";
+        } 
+        set sn_icons_size = "small";
+
+    property string sn_icons_theme { 
+        des = "Theme for links to social networks";
+        noui = 1;
+        } 
+        set sn_icons_theme = "default";    
+    
+    property OptionsDelimeter delim_sn_links {
+        des = "";
+        }
+
+    property string text_friend_add { 
+        des = "Text for 'Add to friends' link";
+        maxlength = 40;
+        } 
+        set text_friend_add = "Add to friends";
+    
+    property string text_rss { 
+        des = "Text for 'Rss' link";
+        maxlength = 40;
+        } 
+        set text_rss = "Rss";  
+
+    property OptionsDelimeter delim_sn_fb {
+        des = "Links to your accounts";
+        }
+            
+    property string link_facebook {
+        des = "Link to your Facebook account";
+        note = "Type here the link to your account";
+        }
+    property string name_facebook {
+        des = "Text for link to your Facebook account";
+        note = "Will be displayed if you chose ‘Icons with text’ in Display of links to social networks";
+        maxlength = 40;
+        }
+
+    property OptionsDelimeter delim_sn_tw {
+        des = "";
+        }
+            
+    property string link_twitter {
+        des = "Link to your Twitter account";
+        }
+    property string name_twitter {
+        des = "Text for link to your Twitter account";
+        note = "Will be displayed if you chose ‘Icons with text’ in Display of links to social networks";
+        maxlength = 40;
+        }
+
+    property OptionsDelimeter delim_sn_vk {
+        des = "";
+        }
+            
+    property string link_vk {
+        des = "Link to your VK account";
+        }
+    property string name_vk {
+        des = "Text for link to your VK account";
+        note = "Will be displayed if you chose ‘Icons with text’ in Display of links to social networks";
+        maxlength = 40;
+        }    
+      
+}
+
+
+propgroup sidebars = "Sidebar";
+propgroup sidebars {
+
+    property bool hide_sidebar { 
+        des = "Hide the sidebar";
+        }
+        set hide_sidebar = false;      
+
+    # --------------- Widgets order ---------------
+
+    property OptionsDelimeter delim_sb_order {
+        des = "Order of widgets in sidebar";
+        }  
+      
+    property string item_1 {
+        des = "1st item in sidebar";
+        values = "none|(none)|profile|Profile|calendar|Calendar|links|Links|tags|Tags|summary|Summary|customtext|Custom Text";
+        }
+        set item_1 = "profile";
+    
+    property string item_2 {
+        des = "2nd item in sidebar";
+        values = "none|(none)|profile|Profile|calendar|Calendar|links|Links|tags|Tags|summary|Summary|customtext|Custom Text";
+        }
+        set item_2 = "calendar";
+    
+    property string item_3 {
+        des = "3rd item in sidebar";
+        values = "none|(none)|profile|Profile|calendar|Calendar|links|Links|tags|Tags|summary|Summary|customtext|Custom Text";
+        }
+        set item_3 = "links";
+    
+    property string item_4 {
+        des = "4th item in sidebar";
+        values = "none|(none)|profile|Profile|calendar|Calendar|links|Links|tags|Tags|summary|Summary|customtext|Custom Text";
+        }
+        set item_4 = "tags";
+    
+    property string item_5 {
+        des = "5th item in sidebar";
+        values = "none|(none)|profile|Profile|calendar|Calendar|links|Links|tags|Tags|summary|Summary|customtext|Custom Text";
+        }
+        set item_5 = "summary";
+    
+    property string item_6 {
+        des = "6th item in sidebar";
+        values = "none|(none)|profile|Profile|calendar|Calendar|links|Links|tags|Tags|summary|Summary|customtext|Custom Text";
+        }
+        set item_6 = "customtext";
+
+    property string[] custom_widgets_order {
+        des = "Show only selected widgets in sidebar";
+        noui = 1;
+        }
+        set custom_widgets_order = [];
+
+    # --------------- Widget options ---------------   
+
+    property OptionsDelimeter delim_sb_options {
+        des = "Widgets options";
+        } 
+
+    property string calendar_month_format {
+        des = "Short or full month";
+        values = "short|Short|long|Long";
+        noui = 1;
+        }
+        set calendar_month_format = "short";
+            
+    property string title_calendar{
+        des = "Title of the sidebar Calendar block";
+        note = "Type here the title of your Calendar block";
+        }
+        set title_calendar = "Calendar";
+    
+    property string title_links{
+        des = "Title of the sidebar Links block";
+        note = "Type here the title of your Links block";
+        }
+        set title_links = "Links";
+    
+    property string title_summary{
+        des = "Title of the sidebar Summary block";
+        note = "Type here the title of your Summary block";
+        }
+        set title_summary = "Page Summary";
+        
+    property OptionsDelimeter delim_sb_profile {
+        des = "Profile block";
+        }         
+
+    property string title_profile{
+        des = "Title of the sidebar Profile block";
+        note = "Type here the title of your Profile block";
+        }
+        set title_profile = "Profile";
+    
+    property string img_profile{
+        des = "Url of the image for the sidebar Profile block";
+        note = "This affects the displayed image in your Profile block";
+        }
+    property string name_profile{
+        des = "Name for the sidebar Profile block";
+        note = "Type here the name that will be displayed in your Profile block";
+        }
+    property string text_profile {
+        des = "Text for the Profile sidebar block";
+        note = "Type here the text, that will be displayed in the Profile block";
+        cols = 40;
+        rows = 10;
+        string_mode = "html";
+        }
+    
+    property OptionsDelimeter delim_sb_tags {
+        des = "Tags block";
+        } 
+    
+    property string title_tags{
+        des = "Title of the sidebar Tags block";
+        note = "Type here the title of your Tags block";
+        }
+        set title_tags = "Tags";
+    
+    property string tag_display { 
+        des = "Display of tags in sidebar";
+        values = "list|list|cloud|cloud";
+        note = "This affects the view of displayed tags in the sidebar";
+        } 
+        set tag_display = "cloud";
+
+    property string tag_order { 
+        des = "Order of tags";
+        values = "abc|alphabetically|popularity|by popularity";
+        note = "This allows to set order of tags displayed in the sidebar";
+        } 
+        set tag_order = "abc";    
+
+    property bool opt_tag_limit { 
+        des = "Limit number of tags displayed";
+        note = "This allows to set a number of tags displayed in the sidebar";
+        } 
+        set opt_tag_limit = true;
+
+    property int tag_limit { 
+        des = "Number of tags to display in Tags sidebar (if limited)";
+        min = 1;
+        note = "Minimum 1 tag";
+        } 
+        set tag_limit = 50;
+
+    property string text_view_all_tags{
+        des = "Text to view all tags";
+        noui = 1;
+        }
+        set text_view_all_tags = "View all tags";    
+    
+    property OptionsDelimeter delim_sb_custom {
+        des = "Custom block";
+        }
+
+    property string title_customtext {
+        des = "Title for the custom sidebar block";
+        }
+
+     property string text_customtext {
+        des = "Content of custom block (HTML is available)";
+        cols = 40;
+        rows = 10;
+        string_mode = "html";
+        note = "This allows to create your custom block in the sidebar. If the field is empty this block will not be displayed in the sidebar";
+        }
+
+}  
+
+propgroup entry = "Entry";
+propgroup entry {
+
+    property string date_format {
+        des = "Date and time format";
+        size = 80;
+        note = "This affects the format of date and time which are displayed in your journal. If the field is empty they will be displayed in standard format for your journal";
+        }
+        
+    property OptionsDelimeter delim_entry_upics {
+        des = "Userpics in entry";
+        } 
+            
+    property bool recent_show_upic { 
+        des = "Show userpics on Recent Entries page";
+        note = "This allows to set the display of your userpics on your Recent entries pag";
+        } 
+        set recent_show_upic = true;
+        
+    property bool friends_show_upic { 
+        des = "Show userpics on Friends page";
+        note = "This allows to set the display of your userpics on your Friends page";
+        } 
+        set friends_show_upic = true;
+
+    property bool entry_show_upic { 
+        des = "Show userpics on Entry page";
+        note = "This allows to set the display of your userpic on your Entry page";
+        } 
+        set entry_show_upic = true;    
+
+    property string float_upic { 
+        des = "Position of userpic in entry";
+        values = "left|Left|right|Right";
+        note = "This allows to set the position of your userpic in your entry";
+        } 
+        set float_upic = "right";    
+        
+    property OptionsDelimeter delim_entry_meta {
+        des = "Meta in entry";
+        } 
+            
+    property bool recent_show_meta { 
+        des = "Show meta (mood, music, location etc.) on Recent Entries page";
+        note = "This allows to set the display of meta data on your Recent Entries page";
+        } 
+        set recent_show_meta = true;
+        
+    property bool friends_show_meta { 
+        des = "Show meta (mood, music, location etc.) on Friends page";
+        note = "This allows to set the display of meta data on your Friends page";
+        } 
+        set friends_show_meta = true;
+
+    property use tags_aware;
+    set tags_aware = true; 
+
+    set repost_aware = true; 
+
+    property use text_meta_location;
+    property use text_meta_mood;
+    property use text_meta_music;
+    
+    property string text_meta_tags {
+        des = "Text for 'Tags' ";
+        } 
+        set text_meta_tags = "Tags";    
+    
+    property OptionsDelimeter delim_entry_text {
+        des = "";
+        } 
+
+    property use text_nosubject;
+
+    property string text_nosubject_month { 
+        des = "Text for a Subject line in month view when no subject is specified";
+        noui = 1;
+        } 
+        set text_nosubject_month = "(no subject)";     
+
+    property use text_read_comments;
+    property use text_read_comments_friends;
+    property use text_read_all_comments;
+    property use text_post_comment;
+    property use text_post_comment_friends;
+    property use text_edit_entry;
+    property use text_edit_tags;
+    property use text_mem_add;
+    property use text_share;
+    property use text_flag;
+    property use text_watch_comments;
+    property use text_unwatch_comments;
+    property use text_permalink;
+
+    property bool readlink_as_count { 
+        des = "Show readlink as number of comments";
+        noui = 1;
+        } 
+        set readlink_as_count = false;   
+}
+
+
+propgroup text {
+
+    property use text_totop;
+    property use text_skiplinks_back;
+    property use text_skiplinks_forward;
+
+    property string text_user_posts_in {
+        noui = 1;
+        } 
+        set text_user_posts_in = "wrote in";        
+
+    property string text_comment_pages_backward {
+        noui = 1;
+        } 
+        set text_comment_pages_backward = "backward";
+
+    property string text_comment_pages_forward {
+        noui = 1;
+        } 
+        set text_comment_pages_forward = "forward";            
+        
+     property string text_noentries{
+        des = "Title of the page without entries";
+        note = "This affects only on the text variable for title of the page without entries in your journal. If the field is empty it will not be displayed";
+        }
+        set text_noentries = "No entries.";  
+
+     property string text_tags_page_header {
+        des = "Title of the page with all tags";
+        note = "This affects only the title of the page with all tags in your journal. If the field is empty it will not be displayed";
+        }
+        set text_tags_page_header = "Tags";
+
+     property string text_tag_uses {
+        des = "Text for tags uses";
+        note = "This affects only the text for tags uses in your journal. If the field is empty it will not be displayed";
+        }
+        set text_tag_uses = "# entry//# entries";   
+
+    
+    property string text_viewmonth_submit {
+        noui = 1;
+        } 
+        set text_viewmonth_submit = "View";
+ 
+}
+
+propgroup customcss {
+
+    property bool use_layout_css {
+        des = "Use layout.css";
+        }
+        set use_layout_css = true;
+
+    property bool use_base_css {
+        des = "Use base.css";
+        noui = 1;
+        }
+        set use_base_css = false;    
+
+    property string theme_css {
+        noui = 1;
+        }
+         
+    property string colors_css {
+        noui = 1;
+        }
+                
+    property bool use_theme_css {
+        des = "Use theme.css";
+        }
+        set use_theme_css = true;        
+
+    property string linked_stylesheet {
+        des = "Custom external stylesheet URL";
+        note = "If you selected \"Unstyled\" as your theme and have a custom external stylesheet that you'd like to use instead, or if you'd just like to use a custom external stylesheet in addition to your theme's stylesheet, enter its URL here.";
+        }
+
+    property string custom_css {
+        des = "Custom stylesheet";
+        cols = 50;
+        rows = 20;
+        string_mode = "css";
+        note = "Here you can type your custom CSS";
+        }
+    
+    property string hidden_user_css {
+        des = "Hidden user Css";
+        string_mode = "css";
+        noui = 1;
+        }    
+    
+}
+
+#------------- End of properties -------------
+
+function bool(string input) : bool {
+    return $input?true:false;
+    }
+
+function check_prop_inits (string prop_value, string inits) : string {
+    var string out = "";
+    if($prop_value){
+        if( $prop_value->contains( $inits ) ) {
+            $out = $prop_value;
+            }
+            else {
+                $out = $prop_value + $inits;
+                }
+        }        
+        return $out;        
+    }
+
+#------------- Internal styles -------------------    
+function internal_css (){
+
+
+    $*hidden_user_css = """
+/* User options
+---------------------------------- */""";
+
+    #---------- Body background ----------------
+
+    if($*body_image_url != "" or $*body_bgcolor != ""){
+        
+        $*hidden_user_css = $*hidden_user_css + """
+BODY {
+    background: $*body_bgcolor""";
+    if($*body_image_url != ""){
+        $*hidden_user_css = $*hidden_user_css + """ url($*body_image_url) $*body_image_repeat $*body_image_position $*body_image_attachment """;
+        }
+        $*hidden_user_css = $*hidden_user_css + """;\n}""";    
+    }
+
+    #---------- Feed background ----------------
+
+    if($*feed_image_url != "" or $*feed_bgcolor != ""){
+        
+        $*hidden_user_css = $*hidden_user_css + """
+            .j-l-page {
+            background: $*feed_bgcolor """;
+            if($*feed_image_url != ""){
+                    $*hidden_user_css = $*hidden_user_css + """ url($*feed_image_url) $*feed_image_repeat $*feed_image_position """;
+                }
+        $*hidden_user_css = $*hidden_user_css + """}""";    
+    }
+
+    #---------- Header background and height ----------------
+
+    if($*header_image_url != ""){
+    
+        if(not $*header_image_url->contains("http")){
+            $*header_image_url = $*STATDIR + $*header_image_url;
+            }
+
+        $*header_class = $*header_class + " j-p-header-image-$*header_image_place";
+        
+        if($*header_image_height == ""){
+            $*header_image_height = "200";
+            }
+        if(not $*header_image_height->contains("px")){
+            $*header_image_height = $*header_image_height + "px";
+            }
+
+        $*hidden_user_css = $*hidden_user_css + """
+            .j-w-header-image-inner {
+            height: """ + $*header_image_height + """;
+            background: url($*header_image_url) $*header_image_repeat $*header_image_position;
+        }""";    
+    }
+
+    #---------- Feed width ----------------
+
+    var string page_width_out = "";
+    if ($*page_width_type == "fixed"){
+            var string fix_width = check_prop_inits ($*fixed_page_width, "px");  
+            $page_width_out = "width: $fix_width;";
+        }    
+    elseif ($*page_width_type == "flexible"){
+          var string max_width = check_prop_inits ($*max_page_width, "px");  
+          var string min_width = check_prop_inits ($*min_page_width, "px");  
+          $page_width_out = "max-width: $max_width;\n min-width: $min_width;";
+        }
+  
+    #---------- Sidebar width ----------------
+
+    if($*sidebar_width == ""){
+        $*sidebar_width = $*default_sidebar_width;
+        }
+    var string sb_width = check_prop_inits ($*sidebar_width, "px");  
+    var string sb_width_out = "width: $sb_width;";  
+    var string sb_layout_margin = "-$sb_width";
+
+    #space_between_blocks
+    var int alpha_margin = int($*sidebar_width) + int($*space_between_blocks);
+    var string alpha_margin_out = $alpha_margin + "px"; 
+
+    if ( $*alpha_full_width == true or $*hide_sidebar == true ) {
+        $sb_width_out = "width: 100%;";
+        $alpha_margin_out = "0"; 
+        $sb_layout_margin = "0";
+    }
+
+    var string alpha_header_style = "";
+
+    if($*page_layout == "headerin_alpha"){
+    $alpha_header_style = """
+.j-l-alpha-header {
+    margin-right: 0;
+    margin-left: $alpha_margin_out;
+    }
+    .j-p-layout-wt .j-l-alpha-header {
+        margin-left: 0;
+        margin-right: $alpha_margin_out;
+        }
+        """;
+        } 
+
+$*hidden_user_css = $*hidden_user_css + """ 
+/* Layout
+---------------------------------- */  
+.j-l-page {
+    $page_width_out
+    }
+$alpha_header_style
+.j-l-alpha-content {
+    width: auto;
+    margin-left: $alpha_margin_out;
+    }
+   .j-p-layout-wt .j-l-alpha-content {
+        margin-right: $alpha_margin_out;
+        margin-left: 0;
+       }           
+
+.j-l-beta {
+    float: left;
+    $sb_width_out
+    margin-right: $sb_layout_margin;
+    }
+    .j-p-layout-wt .j-l-beta {
+        float: right;
+        margin-right: 0;
+        margin-left: $sb_layout_margin;
+        } 
+
+.j-l-footer {
+    clear: both;
+    width: auto;
+    margin-left: $alpha_margin_out;
+    }
+    .j-p-layout-wt .j-l-footer {
+        margin-right: $alpha_margin_out;
+        margin-left: 0;
+        }""";
+}
+
+#------------- Global init -------------------    
+
+function _global_init_ {
+    var Page p = get_page();
+    $*base_url = $p.journal->base_url();
+
+    #-------- Body classes ----------------------
+
+    $*body_class = "j-view-$p.view type-$p.journal.journal_type";
+
+    var string{} layout_types = {
+            "2CL" => "j-p-layout-tw",
+            "2CR" => "j-p-layout-wt"
+            };
+
+    var string page_layout_class = "j-p-page-layout-$*page_layout";   
+
+    if ( $*alpha_full_width == true){
+        $page_layout_class = $page_layout_class + " j-p-alpha-full-width"; 
+        } 
+    if ( $*hide_sidebar == true ) {
+        $page_layout_class = $page_layout_class + " j-p-no-sidebar";   
+        }     
+
+    var string sntw_links_class =  "j-p-social-networks-$*place_sn_links"; 
+
+    var string header_layout_class = "j-p-header-layout-$*header_layout";
+
+    var string menupos_class = "j-p-menu-$*menu_position";
+
+    $*body_class = $*body_class + " " + $layout_types{$*layout_type} + " $page_layout_class $header_layout_class $sntw_links_class $menupos_class";
+
+    if ($*tag_display == "list") {
+        $*body_class = $*body_class + " j-p-tags-list";
+        } else {
+            $*body_class = $*body_class + " j-p-tags-cloud";
+            }
+
+   $*body_class = $*body_class + " j-p-userpic-$*float_upic j-p-entry-layout-$*entry_layout";
+
+    if( $*hide_upic_in_header or not(defined $p.journal.default_pic)){
+         $*body_class = $*body_class + " j-p-hide-header-upic";
+        } 
+   
+   if (((($p.view=="recent") or ($p.view=="day")) and not $*recent_show_upic) or ($p.view=="friends" and not $*friends_show_upic) or ($p.view=="entry" and not $*entry_show_upic)) {
+        $*body_class = $*body_class + " j-p-hide-upic";
+        }
+    if (((($p.view=="recent") or ($p.view=="day")) and not $*recent_show_meta) or ($p.view=="friends" and not $*friends_show_meta)) {
+        $*body_class = $*body_class + " j-p-hide-meta";
+        }
+
+    if( $p->viewer_sees_journalpromo()){
+        $*body_class = $*body_class + " j-p-promo-on";
+        }    
+
+ 
+    $*header_class = "j-l-header";
+    $*beta_class = "j-l-beta";
+
+    if($*page_layout == "headerin_alpha"){
+        $*header_class = $*header_class + " j-l-alpha-header";
+        }
+
+    if($*place_sn_links == "header"){
+        $*header_class = $*header_class + " j-p-social-networks-$*sn_icons_size";
+        }
+        elseif($*place_sn_links == "profile"){
+            $*beta_class = $*beta_class + " j-p-social-networks-$*sn_icons_size";
+            }
+
+    #-------- Links ----------------------
+   
+    var string prev_url = "";
+    var string next_url = "";
+    var string prev_text = "";
+    var string next_text = "";
+
+    if ($p.view =="recent") {
+        $*next_url = $*_RecentPage.nav.forward_url;
+        $*prev_url = $*_RecentPage.nav.backward_url;
+        $*prev_text = get_plural_phrase($*_RecentPage.nav.backward_count, "text_skiplinks_back");
+        $*next_text = get_plural_phrase($*_RecentPage.nav.forward_count, "text_skiplinks_forward");
+    } elseif ($p.view =="friends") {
+        $*next_url = $*_FriendsPage.nav.forward_url;
+        $*prev_url = $*_FriendsPage.nav.backward_url;
+        $*prev_text = get_plural_phrase($*_FriendsPage.nav.backward_count, "text_skiplinks_back");
+        $*next_text = get_plural_phrase($*_FriendsPage.nav.forward_count, "text_skiplinks_forward");
+    } elseif ($p.view =="month") {
+        $*next_url = $*_MonthPage.next_url;
+        $*prev_url = $*_MonthPage.prev_url;
+        $*prev_text = "";
+        $*next_text = "";
+    } elseif ($p.view =="day") {
+        $*next_url = $*_DayPage.next_url;
+        $*prev_url = $*_DayPage.prev_url;
+        $*prev_text = $*text_day_prev;
+        $*next_text = $*text_day_next;
+    }
+        
+    if ($*lang_current == "ru") {
+        $*reg_firstdayofweek = "monday";
+        }        
+
+    $*text_entries_bytag = "Tags";
+        
+    if ($*lang_current == "ru") {
+        $*text_user_posts_in = "пишет в";
+        if ($*text_friend_add == "Add to friends") {
+            $*text_friend_add = "Добавить в друзья";
+        }
+
+        $*text_entries_bytag = "Метки";
+        $*text_entries_bytag_or = "или";
+        $*text_entries_bytag_and = "и";
+
+        $*text_comment_pages_backward = "назад";
+        $*text_comment_pages_forward = "вперёд";
+
+        $*text_nosubject_month = "(без темы)"; 
+        }
+
+    #----------------- Add Css -------------------------
+
+    if ($*use_layout_css == true) {
+        internal_css();
+        }
+
+}
+
+#------------- End of Global init -------------------
+
+function print_widget_list (string[][] list, string intname) {
+    var Page p = get_page();
+    var string ul_class = "j-w-list";
+    var string li_class = "";
+
+    #$ulclass = $ulclass + " j-w-$intname";
+
+    if ($intname == "tags" and $*tag_display == "cloud") {
+        $ul_class = $ul_class + " " + $ul_class + "-tags j-p-tagcloud";
+        }
+    
+    println """<ul class="$ul_class">""";
+
+    var int scount = 0;
+    foreach var string[] s ($list) {
+        var string li_custom_class = $s[1];
+        var string li_content = $s[0];
+        $li_class = "j-w-item";
+
+        if($li_custom_class) {
+            $li_class = $li_class + " $li_custom_class";
+            }
+        if ($scount == size $list) {
+            $li_class = $li_class + " last";
+        } 
+
+        $scount++;
+        print safe """<li class="$li_class">$li_content</li> """;
+    }
+    println """</ul>""";
+}
+
+function Page::print_stylesheets() {
+    var Page p = get_page();
+    if ($*use_layout_css == true) {
+        $p->need_res({"args" => "media=\"screen\"" }, ["stc/chameleon/layout.css"]);
+        }
+
+    if ($*use_base_css == true) {
+        $p->need_res({"args" => "media=\"screen\"" }, ["stc/chameleon/base.css"]);
+        }
+
+    if($*sn_icons_theme != ""){
+        $p->need_res({"args" => "media=\"screen\"" }, ["stc/chameleon/icons/$*sn_icons_theme/icons-theme.css"]);
+        }
+    
+    if ($*theme_css != "" and $*theme_css != "__none" and $*use_theme_css == true) {
+        $p->need_res({"args" => "media=\"screen\"" }, ["stc/chameleon/$*theme_css"]);
+
+        if ($*colors_css != "") {
+            $p->need_res({"args" => "media=\"screen\"" }, ["stc/chameleon/$*colors_css"]);
+            } 
+        } 
+
+    
+    if ($*custom_css != "" or $*hidden_user_css != "") {
+        println """<style type="text/css">""";
+        start_css();
+        println safe $*hidden_user_css;
+        if($*custom_css){
+            println """/* Custom Css\n---------------------------------- */""";
+            println safe $*custom_css;
+            }
+        end_css();
+        println """/*---------------------------------- */""";
+        println """</style>""";
+    }
+}
+
+function print_socicons(string place) {
+    
+    if($place == $*place_sn_links) {
+
+        var Page p = get_page();
+        var string rsslink = ($p.data_link{"rss"})?($p.data_link{"rss"}.url):"$*base_url/data/rss";
+        var Link addlink = $p.journal -> get_link("add_friend");
+        var string addfriend = "$*SITEROOT/friends/add.bml?user=$p.journal.name"; #($addlink.url != "") ? $addlink.url : "";
+
+        var string nav_parent = "header";
+        
+        if($place->contains("profile")) {
+            $nav_parent = "profile-inn";
+            }  
+
+        var string[][] links_list = [
+                ["add", $addfriend, $*text_friend_add],
+                ["rss", $rsslink, $*text_rss],
+                ["fb", $*link_facebook, $*name_facebook],
+                ["tw", $*link_twitter,  $*name_twitter],
+                ["vk", $*link_vk,  $*name_vk]                
+                ];
+
+        var string items_list;
+
+        var int counter = 0;
+
+        foreach var string[] item ($links_list){
+                if($item[1] != ""){
+                    var string item_id  = $item[0];
+                    var string link  = $item[1];
+                    var string text = $item[2];
+
+                    if($text == ""){
+                        $text = $link;
+                        }
+
+                    $items_list = $items_list + """<li class="j-social-networks-nav-item j-nav-item-$item_id j-nav-item-$item_id-$*sn_icons_size"><a href="$link" target="_blank" title="$text">$text</a></li>\n"""; 
+                    $counter++;
+                }
+            }
+
+        """
+        <div class="j-w j-$nav_parent-w j-w-social-networks-nav j-w-social-networks-nav-$*sn_icons_size">\n
+       
+            <ul class="j-nav j-$nav_parent-nav j-social-networks-nav j-social-networks-nav-$*sn_icons_size">
+                $items_list
+            </ul>
+
+        </div>
+        """;
+    }  # if place     
+}
+
+function place_socicons_bytype (string icons_place) {
+
+
+    #""" <div> { $icons_place } </div>""";
+
+
+    if(($*sn_icons_size == "big" or $*sn_icons_size == "small") and $icons_place == "before_nav") {
+        print_socicons("header");
+    }
+    elseif(($*sn_icons_size == "big" or $*sn_icons_size == "small") and $icons_place == "before_vcard" and $*menu_position == "in_beta") {
+        print_socicons("header");
+    }
+    elseif(($*sn_icons_size == "text") and $icons_place == "in_vcard") {
+        print_socicons("header");
+    }
+}
+
+
+function print_nav(string place) {
+
+    if($place == $*menu_position){
+
+        var Page p = get_page();
+        var string base_url = $p.journal->base_url();
+        
+        var string out = "";
+        var string[] layout_views_order = ["recent","friends","userinfo","archive","tags"];
+        
+        var string{} layout_views_names = {
+                "recent" => $*text_nav_recent,
+                "friends" => $*text_nav_friends,
+                "userinfo" => $*text_nav_userinfo,
+                "archive" => $*text_nav_archive,
+                "tags" => $*text_nav_tags
+                };
+        
+
+        var string nav_parent = "header";
+        
+        if($place->contains("beta")) {
+            $nav_parent = "beta";
+            }       
+
+        if($place != "in_beta"){
+            place_socicons_bytype("before_nav");
+            } 
+
+        """
+        <div class="j-w j-$nav_parent-w j-w-journal-nav j-p-$place-nav">\n
+        """;
+
+        """<ul class="j-nav j-$nav_parent-nav j-journal-nav">\n """;
+            foreach var string v ($layout_views_order) {#$p.views_order
+                    var string url = $p.view_url{$v};
+                    var string text  = $layout_views_names{$v};#lang_viewname($v);
+                    var string class = "j-journal-nav-item j-$nav_parent-nav-item-$v";
+
+                    if($v == $p.view) {
+                        $class = $class + " j-journal-nav-item-current";
+                    }
+                    if($v == $p.views_order[0]) {
+                        $class = $class + " first";
+                    }
+          
+                    var string class_out = " class=\"$class\"";
+                    
+                    if($text){
+                        print """<li$class_out><a href="$url" title="$text">$text</a></li>\n""";
+                    }
+                }
+          
+                var Link memories_url = $p.journal->get_link("memories");
+          
+                # Memories
+                if($memories_url.url != "") {
+                    println safe """<li class="j-journal-nav-item j-$nav_parent-nav-item-memories"><a href="$memories_url.url" title="$*text_nav_memories">$*text_nav_memories</a></li>\n""";
+                }
+         
+           if ($p.journal.website_url != "") {
+                    var string website_value = $p.journal.website_name ? $p.journal.website_name : $*text_website_default_name;
+                    println safe """<li class="j-journal-nav-item j-$nav_parent-nav-item-website"><a href="$p.journal.website_url">$website_value</a></li>\n""";
+                }
+        """</ul>\n
+        </div>\n
+        """;
+    } # end if place == menu_position
+    return;
+}    
+
+function header_upic(string place) {
+    var Page p = get_page();
+    if(defined $p.journal.default_pic and $*header_upic_position == $place){
+        """<div class="j-user-pic j-header-user-pic"><div class="j-header-user-pic-inner"><div class="j-header-user-pic-content">$p.journal.default_pic</div></div></div>\n""";
+        }
+}
+
+function header_vcard() {
+    var Page p = get_page();
+    var string title = $p.global_title; #$p.global_title; 
+    
+    if ($p isa FriendsPage) {
+        $title = $p->title(); 
+        }
+        
+    place_socicons_bytype("before_vcard");      
+
+    """<div class="j-user j-header-user">""";    
+    
+    header_upic("in_vcard");
+    
+    place_socicons_bytype("in_vcard");  
+       
+    """<hgroup>\n""";
+
+        """<h1 class="j-user-name j-header-user-name">$p.journal</h1>\n""";
+    
+        """<h2 class="j-user-journal-title">""";
+            var string friends_url = $p.view_url{"friends"};
+            if ($p isa FriendsPage) {
+                print safe """<a href="$friends_url">$title</a>""";
+                }
+                else {
+                    print safe """<a href="$*base_url">$title</a>""";
+                   }
+        """</h2>\n""";
+    
+        if (not $p isa FriendsPage) {
+            print safe """<h3 class="j-user-journal-subtitle">$p.global_subtitle</h3>\n""";
+        }
+    """</hgroup>\n
+       </div>\n 
+    """;
+    return;
+    }
+
+function print_header_image(string place, string second_place) {
+    if( ($*header_image_place == $place or $*header_image_place == $second_place) and $*header_image_url != "" ) {
+        """<div class="j-w j-w-header-image"><div class="j-w j-w-header-image-inner">""";
+        """</div></div>\n""";
+        }
+    return;
+    }    
+    
+function print_header_image(string place) {
+    print_header_image($place, "");
+    }    
+
+function print_header_image_place (string place, string variant){
+    if($variant == "before_vcard" and  $*menu_position == "inheader_top"){
+        print_header_image($place);
+    }
+    elseif($variant == "after_vcard" and  ($*menu_position == "inheader_bottom" or $*menu_position == "in_beta")){
+        print_header_image($place);
+    }
+}
+
+function header_layout_default() {
+    header_upic("first_in_header");
+    place_socicons_bytype("top_header");   
+    print_header_image("top");
+    print_nav("inheader_top");
+    print_header_image_place("middle","before_vcard");
+    header_vcard();
+    print_header_image_place("middle","after_vcard");
+    print_nav("inheader_bottom");
+    print_header_image("bottom");
+    return;
+    }
+
+
+#not used  
+function header_layout_custom() { 
+   print_header_image("top");
+   print_socicons("header"); 
+   header_vcard();
+   print_header_image("bottom");
+   return;
+   }
+
+function header_layout() {
+
+    if ($*header_layout == "layout_custom"){
+            header_layout_custom();
+        }
+        else {
+            header_layout_default();
+        }
+    }
+
+function _weekdays() : int[] {
+    var int[] weekdays = [2,3,4,5,6,7,1];
+    return $weekdays;
+}
+
+      
+function print_calendar(YearMonth mon, string place) {
+    var Page p = get_page();
+    var int[] weekdays = weekdays();
+    var string year = $mon->month_format("%%yyyy%%");
+    var string calendar_date = $mon->month_format("%%yyyy%%-%%mm%%-01");
+    var DateTime currentDate = journal_current_datetime();
+    var string table_attr = "";
+    var string table_class_attr = "j-calendar-table $*reg_firstdayofweek";    
+
+    var int pre_empty = $mon.weeks[0].pre_empty;
+    var int post_empty = $mon.weeks[size $mon.weeks - 1].post_empty;
+
+    if($*reg_firstdayofweek == "monday"){
+        $weekdays = _weekdays();
+        
+        if($pre_empty == 0){
+            $pre_empty = 6;
+            }
+            else{
+                $pre_empty = $pre_empty - 1;
+                }
+            $post_empty = $post_empty + 1;
+
+            if ($post_empty == 7 and $place == "page") {
+                $post_empty = 0;
+                }
+        }
+
+    
+    var YearDay[] days;
+    var YearDay noday;    
+
+    foreach var int i (1 .. $pre_empty) {
+            $days[size $days] = $noday;
+        }
+    foreach var YearWeek week ($mon.weeks) {
+        foreach var YearDay day ($week.days) {
+            $days[size $days] = $day;
+        }
+    }
+    foreach var int i (1 .. $post_empty) {
+            $days[size $days] = $noday;
+        }
+    
+    #-------------------------------------------
+
+    var string month = $mon->month_format("%%month%%");
+    
+    if ($place == "sidebar") {
+            if($*calendar_month_format == "long"){
+                $month = $mon->month_format("%%month%%");
+                }
+                else{
+                    $month = $mon->month_format("%%mon%%");
+                    }
+       
+            """<div class="j-w-calendar-nav j-p-calendar-month-$*calendar_month_format">\n<div class="j-w-calendar-nav-inner">\n""";
+            """<span class="j-w-calendar-month sbar-cal-nav-month">
+                <i class="j-w-calendar-prev sbar-cal-nav-prev" title="$*text_month_prev"><i class="j-w-calendar-arr"> </i></i><span class="j-w-calendar-month-name sbar-cal-month"><a href="$mon.url">$month</a></span><i class="j-w-calendar-next sbar-cal-nav-next disabled" title="$*text_month_next"><i class="j-w-calendar-arr"> </i></i></span>\n""";
+            """<span class="j-w-calendar-year sbar-cal-nav-year"><i class="j-w-calendar-prev sbar-cal-nav-prev" title="$*text_year_prev"><i class="j-w-calendar-arr"> </i></i><span class="j-w-calendar-year-name sbar-cal-year"><a href="$*base_url/$year/">$year</a></span><i class="j-w-calendar-next sbar-cal-nav-next disabled" title="$*text_year_next"><i class="j-w-calendar-arr"> </i></i></span>\n""";
+            """</div></div>\n""";
+        }
+    
+    var int weeks_count = size $days / 7;
+
+    $table_attr = """class="$table_class_attr" data-date="$calendar_date\"""";
+
+    var int max_columns = 3;
+    var string class_column_counter = " j-p-calendar-column-$*calendar_columns_counter";
+
+    if ($place == "sidebar") {
+        $class_column_counter = "";
+        }
+
+    
+    """ <div class="j-calendar j-p-calendar-place-$place$class_column_counter">\n""";
+
+    if ($place == "page") {
+            """<div class="j-calendar-month"><a href="$mon.url" title="$*text_view_month">$month</a></div>\n""";
+            }
+
+    """<div class="j-calendar-table-wrapper"><table $table_attr>\n""";
+    
+        println "<thead class=\"j-calendar-weekdays\">\n<tr>\n";
+        
+        var int th_counter = 0;
+        foreach var int d ($weekdays) {
+            $th_counter++;
+            "<th class=\"j-calendar-weekday j-calendar-weekday-$th_counter\">"+$*lang_dayname_shorter[$d]+"</th>\n";
+        }
+        println "\n</tr>\n</thead>\n";
+    
+        var int day_counter = 0;
+        var int week_counter = 0;
+        
+
+        println "<tbody><tr>\n";
+        foreach var YearDay day ($days) {
+            
+            if($day_counter == 7){
+                $week_counter++;
+                var string tr_class_out = "";
+                if($week_counter == ($weeks_count - 1)) {
+
+                    $tr_class_out = " class=\"j-calendar-last-week\""; 
+                }
+                println "</tr>\n<tr$tr_class_out>\n";
+                $day_counter = 0;                    
+                }
+                
+                """<td><span>""";
+    
+                if ($day.num_entries > 0) { """<a href="$day.url">"""; }
+                print $day.day == 0 ? "&nbsp;" : string($day.day);
+                if ($day.num_entries > 0) { """</a>"""; }
+                
+                """</span></td>\n""";
+            $day_counter++;
+        }
+        println "</tr></tbody>\n";
+
+    println """</table>\n</div>\n</div>\n""";
+
+    if( $*calendar_columns_counter < 3){
+        $*calendar_columns_counter++;
+        }
+        else {
+            $*calendar_columns_counter = 1;
+            }
+    
+}
+
+#------------- Sidebar_widgets ------------- 
+
+function print_widget_calendar() {
+    var Page p = get_page();
+    var YearMonth mon = $p->get_latest_month();
+    print_calendar($mon,"sidebar");
+}
+    
+
+function print_widget_links() {
+    var Page p = get_page();
+        var UserLink[] links = $p.linklist;
+        if (size($links) < 1 or not $*linklist_support) { return; }
+
+        var string[][] items;
+        foreach var UserLink link ($links) {
+            if ($link.is_heading) {
+                $items[size $items] = ["""<h5>$link.title</h5>\n""","j-w-links-subtitle"];
+            }
+            elseif (not $link.is_heading and $link.title != "") {
+                $items[size $items] = ["""<a href="$link.url" $link.attributes>$link.title</a>""",""];
+            }
+        }
+
+        print_widget_list($items,"links");
+}
+
+
+function print_widget_tags(int max, string place) {
+    var Page p = get_page();
+    var TagDetail[] total_tags = $p->visible_tag_list();
+    var int most_count = 1;
+    if (size($total_tags) < 1) { return; }
+    var TagDetail[] tags;
+    var int tcount = 0;
+    
+    #---------------------------------------
+
+    var string[][] links;
+    var int[][] graph;
+    var int skipped = 0;
+    if (size $total_tags > $max) {
+        var int toskip = size $total_tags - $max;
+        foreach var TagDetail tag ($total_tags) {
+            $graph[$tag.use_count][size $graph[$tag.use_count]] = $tcount;
+
+            $tcount++;
+
+        }
+        var int T1c = 0;
+        foreach var int[] T1 ($graph) {
+            if ($T1) {
+
+
+                var int[] newT1;
+                if (size $T1 <= $toskip) {
+                    $toskip = $toskip - size $T1;
+                    $graph[$T1c] = $newT1;
+                    $skipped++;
+                } elseif (size $T1 > $toskip and $toskip > 0) {
+                    foreach var int T2 (reverse $T1) {
+                        if ($toskip > 0) {
+                            $toskip = $toskip - 1;
+                        } else {
+                            $newT1[size $newT1] = $T2;
+                        }
+                    }
+                    $graph[$T1c] = reverse $newT1;
+                }
+            }
+            $T1c++;
+        }
+        $tcount = 0;
+        foreach var TagDetail tag ($total_tags) {
+            var bool ok = false;
+            foreach var int tc ($graph[$tag.use_count]) {
+                if ($tc == $tcount) {
+                    $ok = true;
+                }
+            }
+            if ($ok) {
+                $tags[size $tags] = $tag;
+            }
+            $tcount++;
+        }
+    } else {
+        foreach var TagDetail tag ($total_tags) {
+            $tags[$tcount] = $tag;
+            $tcount++;
+        }
+
+    }
+
+    foreach var TagDetail tag ($tags) {
+        if ($tag.use_count > $most_count) {
+            $most_count = $tag.use_count;
+        }
+    }
+
+    $most_count = $most_count - $skipped;
+
+    #------- Order by TagCount ----------
+
+    if($*tag_order == "popularity"){
+        var int[] graph_for_sort;
+        
+        foreach var TagDetail tag ($total_tags) {
+                $graph_for_sort[$tag.use_count] = $tag.use_count;
+                $tcount++;
+            }
+        $graph_for_sort = reverse($graph_for_sort);
+        
+        var TagDetail[] newTags;
+        
+        foreach var int Ts ($graph_for_sort) {
+                if ($Ts) {
+                        foreach var TagDetail tag ($tags) {
+                            if($tag.use_count == $Ts){
+                                $newTags[size $newTags] = $tag;
+                                }
+                        }
+                }
+            }    
+        
+        $tags = $newTags;
+
+        }
+        
+  #------ //Order by TagCount --------- 
+
+    var int num_of_levels = 5;
+    
+    if($most_count < $num_of_levels) {
+        $num_of_levels = $most_count;
+        }
+    
+    var int onestep = $most_count / $num_of_levels;
+    var string clouditem_level = "1";
+    
+  # Now print the tag cloud
+    foreach var TagDetail td ($tags) {
+        var string uses = get_plural_phrase($td.use_count, "text_tag_uses");
+        var string show_uses = "";
+        var string security = $td.visibility;
+
+        if($place == "page" and $*tag_display == "list"){
+                $show_uses = """<span class="dash"> - </span>$uses""";
+            }
+
+          if($td.use_count > $onestep*4){
+                $clouditem_level = "5";
+                }
+                elseif($td.use_count > $onestep*3){
+                $clouditem_level = "4";
+                }
+                elseif($td.use_count > $onestep*2){
+                    $clouditem_level = "3";
+                    }
+                    elseif($td.use_count > $onestep){
+                        $clouditem_level = "2";
+                        }
+                        else{
+                            $clouditem_level = "1";
+                            }
+            $links[size $links] = ["""<a href="$td.url" title="$uses, $security">$td.name</a>$show_uses""","j-w-item-size-$clouditem_level"];
+    }
+
+    if (size $total_tags > $max) {
+        var string link_tags = $p.view_url{"tags"};
+        $links[size $links] = ["""<a href="$link_tags" title="$*text_view_all_tags">...</a>""","j-w-item-more-tags"];
+        }
+
+    print_widget_list($links,"tags");
+
+}
+
+function print_widget_summary() {
+
+    var Page p = get_page();
+
+    var string link = "";
+    var string[][] links;
+    if ($p isa RecentPage) {
+        var RecentPage cp = $p as RecentPage;
+        foreach var Entry e ($cp.entries) {
+            $link = "";
+            var string poster = $e.poster + "";
+            var string journal = $e.journal + "";
+            var string subject = ($e.subject != "") ? striphtml($e.subject) : """<i class="nosubject">$*text_nosubject</i>""";
+            if ((not($e.poster->equals($e.journal))) and ($p.journal.journal_type != "C")) {
+                $link = $link + $journal + " :: ";
+            }
+            if (($p.view == "friends") or ($p.journal.journal_type == "C")) {
+                $link = $link + $poster + " : ";
+            }
+            $link = $link + """<a href="#entry-$e.journal.username-$e.itemid" class="j-w-entry-subject">$subject</a>""";
+            $link = $link + """<span class="dash"> - </span><a href="$e.permalink_url" class="j-w-comments-count">""" + get_plural_phrase($e.comments.count, "text_read_comments") + """</a>""";
+            $links[size $links] = [$link,""];
+        }
+    } 
+
+    if (size($links) < 1) { return; }
+    print_widget_list($links,"summary");
+
+}
+
+function print_widget_customtext() {
+    if($*text_customtext){
+        print $*text_customtext;
+        }
+}
+
+function print_widget_profile() {
+    if($*img_profile or $*text_profile){
+        if($*img_profile){
+            """<div class="j-w-profile-image">\n
+                <img src="$*img_profile"/>\n
+            </div>\n""";
+            }
+        if($*name_profile){
+            """<h4 class="j-w-profile-name">\n
+                $*name_profile\n
+            </h4>\n""";
+            }    
+        if($*text_profile){
+            """<div class="j-w-profile-text">\n
+               $*text_profile\n
+            </div>""";    
+            }
+        }   
+        print_socicons("profile"); 
+}
+
+function print_widget_designedby (string place) {
+    
+    if( $place == $*designedby_place ){
+
+        if($*designedby_customhtml){
+            print $*designedby_customhtml;
+            }
+            else {
+                var string author_link_out = """<span class="j-w-designedby_text">$*designedby_text </span>""";
+                var string author_link = "";
+
+                if($*designedby_url){
+                    $author_link = """<a href="$*designedby_url" class="j-w-designedby_name" title="$*designedby_text $*designedby_name" target="_blank">$*designedby_name</a>""";
+                    }
+                    else {
+                        var UserLite user = UserLite($*designedby_name);
+                        $author_link = $user->ljuser(); # {"in_journal" => $journal_name} ||   ($user,"simple");
+                    }
+
+                print $author_link_out + "$author_link";    
+                }
+
+    }
+        
+}
+
+
+function print_widget_title (string widget_id) {
+    var string output = "";
+    var Page p = get_page();
+
+    var string link_profile = $p.view_url{"userinfo"};
+    var string link_tags = $p.view_url{"tags"};
+    var string link_calendar = $p.view_url{"archive"};
+    
+    var string{} titles = {
+        "profile" => "<a href=\"$link_profile\">$*title_profile</a>",
+        "calendar" => "<a href=\"$link_calendar\">$*title_calendar</a>",
+        "summary" => $*title_summary,
+        "tags" => "<a href=\"$link_tags\">$*title_tags</a>",
+        "links" => $*title_links,
+        "customtext" => $*title_customtext
+    };
+    
+    if($widget_id and $titles{$widget_id}){
+        $output = $titles{$widget_id};
+        }
+        
+    print $output;
+}
+
+
+function print_widget_content (string widget_id) {
+    var string output = "";
+    if($widget_id == "calendar"){
+        print_widget_calendar();
+        }
+        elseif($widget_id == "links"){
+            print_widget_links();
+            }
+            elseif($widget_id == "tags"){
+                print_widget_tags($*tag_limit,"aside");
+                }
+                elseif($widget_id == "summary"){
+                    print_widget_summary();
+                    }
+                    elseif($widget_id == "customtext"){
+                        print_widget_customtext();
+                        }
+                        elseif( $widget_id == "profile" ){
+                            print_widget_profile();
+                            }
+                            elseif( $widget_id == "designedby" ){
+                                print_widget_designedby("sidebar");
+                                }
+                    
+        else{
+            print $output;
+            }
+}
+
+
+function widget_layout_default (string widget_id, string widget_custom_class) {
+     var Page p = get_page();
+     var string widget_class = "j-w j-beta-w";     
+     
+     if($widget_custom_class){
+         $widget_class =  $widget_class + " j-w-" + $widget_custom_class;
+         }
+    """
+    <div class="$widget_class">
+    <h3 class="j-w-title">"""; print_widget_title ($widget_id); """</h3>
+        <div class="j-w-content">
+        """;
+        print_widget_content ($widget_id);
+        """
+        </div></div>""";
+}
+
+
+function widget_layout (string widget_id, string widget_custom_class) {
+    var Page p = get_page();
+    var RecentPage cp = $p as RecentPage;
+    var bool is_widget_show = true;
+
+    # --- if widgets are empty, not show it ---    
+    
+    if($widget_id == "profile" and ($*img_profile == "" and $*text_profile == "")){
+        $is_widget_show = false;
+        } 
+        elseif($widget_id == "customtext" and $*text_customtext == ""){
+            $is_widget_show = false;
+            } 
+            elseif($widget_id == "summary" and (not($p isa RecentPage) or size $cp.entries == 0)){
+                $is_widget_show = false;
+                } 
+                elseif($widget_id == "tags" and size($p->visible_tag_list()) < 1) {
+                    $is_widget_show = false;
+                    }
+                    elseif($widget_id == "links" and size($p.linklist) < 1) {
+                        $is_widget_show = false;
+                        }
+                        elseif($widget_id == "designedby" and (($*designedby_name == "" and $*designedby_customhtml == "") or $*designedby_place != "sidebar")) {
+                            $is_widget_show = false;
+                            }
+
+   if($is_widget_show){
+
+   # --- If widget is shown, choice layout. New widget layouts can be added here ---
+
+       if($*widget_layout == "default"){
+           widget_layout_default ($widget_id, $widget_custom_class);
+           }
+       }
+}
+
+function widgets_order() : string[] {
+    var string[] widgets = [
+        $*item_1,
+        $*item_2,
+        $*item_3,
+        $*item_4,
+        $*item_5,
+        $*item_6,
+        ];
+
+    if(size $*custom_widgets_order > 0){
+        $widgets = $*custom_widgets_order;
+        }              
+
+    foreach var string item ($widgets){
+        
+        if($item == "profile"){
+            widget_layout("profile","profile");
+            }
+            elseif($item == "calendar"){
+                var string cal_month_class = "sidebar-cal-" + $*calendar_month_format + "month";
+                widget_layout("calendar","calendar sidebar-cal $cal_month_class");
+                }
+                elseif($item == "links"){
+                    widget_layout("links","links-list");
+                    }
+                    elseif($item == "tags"){
+                        widget_layout("tags","tags");
+                        }
+                        elseif($item == "summary"){
+                            widget_layout("summary","summary");
+                            }
+                            elseif($item == "customtext"){
+                                widget_layout("customtext","customtext");
+                                }
+        }     
+    
+    widget_layout("designedby","designedby");
+
+    return $widgets;    
+
+}
+
+#------------- Sidebar ------------- 
+            
+function sidebar_layout(){
+    var Page p = get_page();
+    print_nav("in_beta");
+    widgets_order();
+    return;
+}  
+
+#------------- Footer ------------- 
+
+function footer() {
+    var Page p = get_page();
+    var string prev_url = $*prev_url;
+    var string next_url = $*next_url;
+    var string prev_text = $*prev_text;
+    var string next_text = $*next_text;
+
+    if (($prev_url != "" and $prev_text != "") or ($next_url != "" and $next_text != "") or ($*designedby_place == "footer" and ($*designedby_name != "" or $*designedby_customhtml != "" ))) {
+
+        """
+        <footer class="j-l-footer">
+            <ul class="j-nav j-page-nav">\n
+                """;
+                if ($prev_url != "") {
+                """
+                            <li class="j-nav-item j-page-nav-item j-page-nav-item-prev"><a href="$prev_url">$prev_text</a></li>\n
+                """;
+                }
+                if (($p.view == "recent" and $*page_recent_items != 1) or ($p.view == "friends" and $*page_friends_items != 1)) {
+                """
+                            <li class="j-nav-item j-page-nav-item j-page-nav-item-totop"><a href="#" onclick="jQuery('body,html').animate({scrollTop:0},500);return false;">$*text_totop</a></li>\n
+                """;
+                }
+                if ($next_url != "") {
+                """
+                            <li class="j-nav-item j-page-nav-item j-page-nav-item-next"><a href="$next_url">$next_text</a></li>\n
+                """;
+                }
+                """
+            </ul>\n
+            """;
+            if($*designedby_place == "footer" and ($*designedby_name != "" or $*designedby_customhtml != "")) {
+                    """<div class="j-w j-footer-w j-w-designedby"> """;
+                    print_widget_designedby ("footer"); 
+                    """</div>""";
+                }
+            """
+        </footer>                    
+        """;
+        }
+}
+
+
+#------------- Page ------------- 
+
+function page_layout_default (Page p) {
+"""
+    <div class="j-l-wrapper">
+        <div class="j-l-container">
+           <div class="j-l-page">
+              <div class="j-l-page-inner">
+                  <!-- begin page content-->  
+                  <header class="$*header_class">
+                        """; header_layout(); """
+                  </header>
+
+                  <div class="j-l-content">
+                      <div class="j-l-content-inner">  
+                          <section class="j-l-alpha">
+                            <div class="j-l-alpha-content">
+                                <div class="j-l-alpha-content-inner">
+                                """; $p->print_body(); """
+                                </div>        
+                            </div>    
+                                """; footer(); """
+                          </section>
+
+                          """;
+                          if ( not $*hide_sidebar ) {   
+                              """
+                              <aside class="$*beta_class">
+                                <div class="j-l-beta-inner">
+                                    """; sidebar_layout(); """
+                                </div>                                
+                              </aside>
+                              """;
+                              }
+                          """
+                      </div>    
+                  </div><!-- //j-l-content-->
+                  <!-- end page content--> 
+              </div>    
+          </div>
+        </div>
+    </div>  
+  """;    
+  return;
+}
+    
+function page_layout_headerin_alpha (Page p) {
+    """
+    <div class="j-l-wrapper">
+        <div class="j-l-container">
+           <div class="j-l-page">
+              <div class="j-l-page-inner">
+                  <div class="j-l-content">
+                      <div class="j-l-content-inner">  
+                          <!-- begin page content-->      
+                          <section class="j-l-alpha">
+                            <header class="$*header_class">
+                                """; header_layout(); """
+                            </header>
+                            <div class="j-l-alpha-content">
+                                <div class="j-l-alpha-content-inner">
+                                    """; $p->print_body(); """
+                                </div> 
+                            </div>    
+                            """; footer(); """
+                            </section>
+
+                          """;
+                          if ( not $*hide_sidebar ) {   
+                              """
+                              <aside class="$*beta_class">
+                                <div class="j-l-beta-inner">
+                                    """; sidebar_layout(); """
+                                </div>                                
+                              </aside>
+                              """;
+                              }
+                          """
+                          <!-- end page content-->  
+                      </div>    
+                  </div>
+              </div>    
+          </div>
+        </div>
+     </div> 
+  """;    
+  return;
+}
+
+#------------- Page ------------- 
+
+function page_layout (Page p) {
+    if($*page_layout == "headerin_alpha"){
+        page_layout_headerin_alpha($p);
+        }
+    else {
+        page_layout_default($p);
+        }
+}
+
+  
+function Page::print () {
+    if ($.view == "recent") {
+        $*_RecentPage = $this as RecentPage;
+        } 
+        elseif ($.view == "friends") {
+            $*_FriendsPage = $this as FriendsPage;
+            } 
+        elseif ($.view == "day") {
+            $*_DayPage = $this as DayPage;
+            } 
+            elseif ($.view == "month") {
+                $*_MonthPage = $this as MonthPage;
+                } 
+                elseif ($.view == "archive") {
+                    $*_YearPage = $this as YearPage;
+                    }
+                    elseif ($.view == "reply") {
+                        $*_ReplyPage = $this as ReplyPage;
+                        }
+                        elseif ($.view == "entry") {
+                            $*_EntryPage = $this as EntryPage;
+                            }
+    _global_init_();
+
+    var string body_class = $*body_class;
+    """<!DOCTYPE html>
+        <html>
+            <head>            
+   """;
+
+    if ($*next_url) {
+        """<link rel="next" href="$*next_url" />""";
+    }
+    if ($*prev_url) {
+        """<link rel="prev" href="$*prev_url" />""";
+    }
+    
+    $this->need_res(["js/jquery/jquery.lj.inlineCalendar.js", "js/jquery/jquery.calendarEvents.js", "js/s2.js"]);
+
+    $this->need_res({"condition" => "lt IE 9","args" => "media=\"screen\"" }, ["js/lib/html5shiv.js"]);
+    
+    $this->init_appviews();
+    
+    $this->print_head();
+
+    $this->print_stylesheets();
+
+    if ($*linked_stylesheet) {
+        print safe """\n    <link rel="stylesheet" type="text/css" href="$*linked_stylesheet" />""";
+    }
+
+    print safe """<title>""" + $this->title() + """</title>\n""";
+    
+    """
+  
+    </head>
+    <body class="$body_class lj-view-$.view" id="home">""";
+        page_layout($this);
+        $this->print_control_strip();    
+    """</body>\n</html>""";
+
+}
+
+#------------- Entry -------------
+
+function Page::print_entry_poster(Entry e) {
+    $e.poster->print();
+    if ( ($.view == "friends" and not $e.poster->equals($e.journal)) or ($e.reposted_by != "" and $e.journal.journal_type == "C"))  {
+        " <span class=\"wrote\">$*text_user_posts_in</span> ";
+        $e.journal->print();
+    }
+}
+
+
+function layout_author_default ( Entry e, bool print_username, string author_class ){
+    var Page p = get_page();
+
+    """
+    <div class="j-user j-e-user$author_class">\n"""; 
+        if ($e.userpic) { 
+                """<div class="j-user-pic j-e-user-pic">"""; 
+                $e.userpic->print(); 
+                """</div>\n""";
+            } 
+        if ($print_username == true) {
+            """<div class="j-user-name j-e-user-name">"""; $p->print_entry_poster($e); "</div>\n";
+            }
+    """</div>\n""";
+}
+
+function layout_author_username_first ( Entry e, bool print_username, string author_class ){
+    var Page p = get_page();
+
+    """<div class="j-user j-e-user$author_class j-e-user-username-first">\n"""; 
+        if ($print_username == true) {
+            """<div class="j-user-name j-e-user-name">"""; $p->print_entry_poster($e); "</div>\n";
+            }
+        if ($e.userpic) { 
+                """<div class="j-user-pic j-e-user-pic">"""; 
+                $e.userpic->print(); 
+                """</div>\n""";
+            } 
+    """</div>\n""";
+}    
+
+
+function print_author (Entry e){
+
+var Page p = get_page();
+
+var bool print_username = false;
+var string author_class = " j-p-no-username";
+
+    if ( $p.view == "friends" or $e.poster.username != $e.journal.username or $e.reposted_by != "" ) {
+        $print_username = true;
+        $author_class = "";
+        }
+
+    if ( $e.userpic.url == "" ){
+        $author_class = $author_class + " j-p-no-userpic";
+        }    
+
+    if ( ($p.view == "recent" and $e.userpic.url != "") or ($p.view == "recent" and $print_username == true) or $p.view != "recent" ) { # 
+
+        if($*author_layout == "username_first"){
+            layout_author_username_first( $e, $print_username, $author_class );
+            }
+            else{
+                layout_author_default( $e, $print_username, $author_class );
+                }
+    }
+}
+
+function print_repost_user (Entry e){
+    if ($e.reposted_by) {
+        """<div class="j-e-reposted-by">$e.reposted_by</div>""";
+        }
+    }    
+
+function CommentInfo::print_readlink {
+    var Page p = get_page();
+    var string show_screened = "";
+    if ($.screened) {
+        $show_screened = " <b>$*text_month_screened_comments</b>";
+    }
+    
+    var string readlink_text = get_plural_phrase($.count, $p.view == "friends" ? "text_read_comments_friends" : "text_read_comments") + $show_screened;
+    
+    if($*readlink_as_count){
+        $readlink_text = string($.count);
+        if ($.screened) {
+            $readlink_text = "$readlink_text*";
+            }   
+        } 
+
+    print safe "<a href=\"$.read_url\">$readlink_text</a>";
+}
+
+function CommentInfo::print_postlink () {
+    var Page p = get_page();
+        if ($p.view == "entry") {
+                $p->print_reply_link({"target" => "topcomment", "linktext" => $*text_post_comment, "reply_url" => $.post_url+"#$*text_addcomment_id"});
+        } else {
+        print safe "<a href=\"$.post_url\">"+($p.view == "friends" ? $*text_post_comment_friends : $*text_post_comment)+"</a>";
+       }
+}
+
+function CommentInfo::print () {
+
+    if ($.show_readlink)   {
+        """<li class="j-e-nav-item j-e-nav-item-comments">"""; $this->print_readlink(); "</li>\n";
+    }
+    if ($.show_postlink) {
+        """<li class="j-e-nav-item j-e-nav-item-reply">"""; $this->print_postlink(); "</li>\n";
+    }
+
+}
+
+function print_link_button( Entry e, string key ){
+    var Link link = $e->get_link($key);
+
+    if (defined $link) {
+            var string url = $link.url;
+            var string text = $link.caption;
+            var Image icon = $link.icon;
+            print safe """ <a href="$url" class="j-e-buttons-item j-e-buttons-item-$key" title="$text">$icon</a>\n""";  
+            $link->print_raw();
+        } 
+}
+
+function print_linkbar_buttons (Entry e) {
+
+    var Page p = get_page();
+    var bool is_entrypage = ($p.view == "entry" or $p.view == "reply");
+    
+    if($*linkbar_buttons_in_entry and $is_entrypage){
+        print """<div class="j-nav j-e-nav j-e-buttons">\n""";
+       
+        print_link_button($e, "nav_prev");
+
+        foreach var string k ($e.link_keyseq) {
+            print_link_button($e, $k);
+        }
+       
+        print_link_button($e, "nav_next");
+       
+        """</div>""";
+    }
+}
+
+function Entry::print_linkbar () {
+
+    var Page p = get_page();
+    var Link link;
+    var string url = "";
+    var string text = "";
+    
+    var bool show_linkbar = true;
+    var bool is_entrypage = ($p.view == "entry" or $p.view == "reply");
+    
+    if($is_entrypage and $*linkbar_buttons_in_entry){
+        $show_linkbar = false;
+        }   
+
+    var string entrylinks_class = "j-nav j-e-nav";
+
+    if ($.comments.count == 0) {
+        $entrylinks_class = $entrylinks_class + " j-p-no-replies";
+        }
+    
+    if($show_linkbar){
+  
+        print """<div class="$entrylinks_class">\n""";
+        print """<ul class="j-e-nav-list">\n""";
+    
+        $.comments->print();
+    
+        var string{} link_caption = {
+            "edit_entry" => $*text_edit_entry,
+            "edit_tags" => $*text_edit_tags,
+            "mem_add" => $*text_mem_add,
+            "share" => $*text_share,
+            "flag" => $*text_flag,
+            "watch_comments" => $*text_watch_comments,
+            "unwatch_comments" => $*text_unwatch_comments,
+        };
+    
+        foreach var string link_key ($.link_keyseq) {
+                $link = $this->get_link($link_key);
+                
+                if (defined $link) {
+                    $url = $link.url;
+                    $text = $link_caption{$link_key} != "" ? $link_caption{$link_key} : $link.caption;
+                    print safe """ <li class="j-e-nav-item j-e-nav-item-$link_key"><a href="$url" title="$text">$text</a></li>\n""";  
+                    $link->print_raw();
+            }
+        }
+        # need add LINK as a text variable
+        print """<li class="j-e-nav-item j-e-nav-item-permalink"><a href="$.permalink_url">$*text_permalink</a></li>\n""";
+        println "</ul>\n</div>";
+    
+    }
+}
+
+function _dateTime (Date time, bool only_date) : string {
+
+    var Page p = get_page();
+    var string result = "";
+    var DateTime currentDate = journal_current_datetime();
+    var int month = int($time->date_format("%%m%%"));
+    var string date_format;
+    var string time_format;
+
+   if($*date_format != "" and $only_date == false){
+        #if custom format not empty
+        $result = $time->date_format($*date_format);
+        }
+        elseif ($*lang_current == "ru") {
+        
+            var string[] months = ["","января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+            $date_format = $time->date_format("%%d%% ${months[$month]} %%yyyy%%");
+            $time_format = $time->date_format("%%H%%:%%min%%");
+
+            $result = """<span class="j-e-date-day">$date_format</span>""";
+
+            if (string($currentDate.year) == $time->date_format("%%yyyy%%") and $only_date == false) {
+                #$format = "%%d%% ${months[$month]} %%yyyy%%, %%H%%:%%min%%";
+                $result = """$result<span class="j-e-date-comma">,</span> <span class="j-e-date-time">$time_format</span>""";
+                }
+
+            } else {
+                    $date_format = $time->date_format("long");
+                    $time_format = $time->date_format("%%hh%%:%%min%% %%a%%m");
+
+                    $result = """<span class="j-e-date-day">$date_format</span>""";
+
+                    if($only_date == false){
+                         $result = """$result<span class="j-e-date-comma">,</span> <span class="j-e-date-time">$time_format</span>""";
+                         }
+                }
+
+    return $result;
+}
+
+function _dateTime (Date time) : string {
+
+    var string result = _dateTime ($time, false);
+    return $result;
+
+    }
+
+function post_status_icon(Entry e) {
+
+    var string icon = "";
+    if ($e.repost) {
+        $icon = "$e.repost_icon "; 
+        }
+    if ($e.delayed) {
+        $icon = "$e.delayed_icon ";
+        }
+    if ($e.sticky) {
+        $icon = "$e.sticky_icon ";
+        }
+    if ($e.security) {
+        $icon = "$e.security_icon ";
+        }
+    print $icon;    
+
+}
+
+function post_subject (Entry e){
+
+    var string subject = $e.subject != "" ? $e.subject : $*text_nosubject;
+    print $subject;
+
+}
+
+
+function Entry::print_metadata() {
+
+if (size $.metadata > 0 or (size($.tags) > 0) and ($*tags_aware)) {
+
+    """<div class="j-e-meta">\n""";
+
+        if (size $.metadata) {
+            """<div class="j-e-currents">\n<ul class="j-e-currents-list">\n""";
+            foreach var string m ($.metadata) {
+                var string text = lang_metadata_title($m);
+                var string val  = $.metadata{$m};
+
+                if($text != ""){
+                    $text = $text + ":";
+                    }
+
+                if ($m == "mood") {
+                    if(($.mood_icon)) {
+                        $val = " $.mood_icon " + $val;
+                    }
+                }
+                print safe """<li class="j-e-currents-item j-e-currents-item-$m">\n<span class="j-e-meta-label">$text</span>\n <span class="j-e-meta-content">$val</span>\n</li>\n""";
+            }
+            "</ul>\n</div>\n";
+        }
+
+        if ((size($.tags) > 0) and ($*tags_aware)) {
+            var int tcount = 0;
+            var string tags_text = $*text_meta_tags;
+
+            if($tags_text != ""){
+                    $tags_text = $tags_text + ":";
+                    }
+
+            """<div class="j-e-tags">\n<span class="j-e-meta-label">$tags_text</span>\n <span class="j-e-meta-content">\n""";
+            foreach var Tag t ($this.tags) {
+                """<span class="j-e-tags-item"><a rel="tag" href="$t.url">$t.name</a></span>""";
+                $tcount++;
+                if ($tcount != size $.tags) {
+                    """<span class="comma">, </span>""";
+                }
+             }
+            "\n</span>\n</div>\n";
+        }
+    
+    """</div>\n""";
+    }
+}
+
+function entry_class (Entry e) : string {
+    var Page p = get_page();
+    var string e_class = "j-e";
+
+    if ($p.view == "entry" or $p.view == "reply"){
+        $e_class = "$e_class j-e-view-$p.view";
+        }
+
+    if ($e.repost) {
+        $e_class = "$e_class $e_class-repost"; 
+        }
+    return $e_class;    
+    }
+
+
+function print_entry_default(Entry e, string e_class) {
+    var Page p = get_page();
+    var string id = " id=\"entry-$e.journal.username-$e.itemid\"";
+
+    """<article $id class="$e_class">\n""";
+
+    """<time class="j-e-date">""" + _dateTime ($e.time) + """</time>\n""";
+    
+    print_author($e);
+
+    """<h3 class="j-e-title">\n""";
+        post_status_icon($e);
+        """<a href="$e.permalink_url">"""; post_subject($e); """</a>\n""";
+    "</h3>\n";
+   
+    print_repost_user($e);
+
+    """<div class="j-e-text">\n""";
+        $e->print_text();
+    """</div>\n""";
+    
+    $e->print_metadata();        
+    
+    $e->print_linkbar();
+
+    "</article>\n\n";
+}
+
+function print_entry_title_date(Entry e, string e_class) {
+    var Page p = get_page();
+    var string id = " id=\"entry-$e.journal.username-$e.itemid\"";
+    
+    """<article $id class="$e_class">\n""";
+
+    """<h3 class="j-e-title">\n""";
+        post_status_icon($e);
+        """<a href="$e.permalink_url">"""; post_subject($e); """</a>\n""";
+    "</h3>\n";
+    """<time class="j-e-date">""" + _dateTime ($e.time) + """</time>\n""";
+
+    print_author ($e);
+
+    print_repost_user($e);
+   
+    """<div class="j-e-text">\n""";
+      $e->print_text();
+    """</div>\n""";
+ 
+    $e->print_metadata();
+  
+    $e->print_linkbar();
+
+    "</article>\n\n";
+}
+
+function print_entry_author_date_title (Entry e, string e_class) {
+    var Page p = get_page();
+    var string id = " id=\"entry-$e.journal.username-$e.itemid\"";
+    
+    """<article $id class="$e_class">\n""";
+
+    print_author ($e);
+
+    """<time class="j-e-date">""" + _dateTime ($e.time) + """</time>\n""";
+
+    """<h3 class="j-e-title">\n""";
+        post_status_icon($e);
+        """<a href="$e.permalink_url">"""; post_subject($e); """</a>\n""";
+    "</h3>\n";
+    
+    print_repost_user($e);
+   
+    """<div class="j-e-text">\n""";
+      $e->print_text();
+    """</div>\n""";
+ 
+    $e->print_metadata();
+  
+    $e->print_linkbar();
+
+    "</article>\n\n";
+}
+
+
+function Page::print_entry(Entry e) {
+    #place to add entry_templates
+
+    #"""<a name="#entry-$e.poster.username-$e.itemid"></a>\n""";
+
+    var string e_class = entry_class($e);
+    
+    if($*entry_layout == "title_date"){
+        print_entry_title_date($e, $e_class);
+    }
+    elseif ($*entry_layout == "user_date_title") {
+        print_entry_author_date_title($e, $e_class);
+        }
+        else{
+            print_entry_default($e, $e_class);
+            }
+ }
+
+
+function RecentPage::print_body {
+    if ($.tagfilter_active and $*show_title_on_tagpage) {
+
+        var string delim = $*text_entries_bytag_or;
+        if($.tagfilter_mode == "and"){
+            $delim = $*text_entries_bytag_and;
+        }
+   
+       var string tagpage_header = get_plural_phrase(size( $.tagfilter_tags), "text_entries_bytag");
+
+        """<h2 class="j-page-title j-page-title-tagname">$tagpage_header: """;
+
+            var int counter = 0;
+            foreach var Tag tag ($.tagfilter_tags) {
+                $counter++;
+                """$tag.name""";
+                if($counter < size($.tagfilter_tags)){
+                    """ $delim """;          
+                }
+            }
+        """</h2>\n""";
+    }    
+   
+    if (size $.entries > 0) {
+        foreach var Entry e ($.entries) {
+            $this->print_entry($e);
+            $this->render_journalpromo();
+        }
+    }
+    else {
+        """<article class="j-e j-e-no-entries-message">\n""";
+            print safe "<p class=\"j-e-no-entries-text\">$*text_noentries</p>\n";
+        """</article>\n""";
+        }
+}
+
+function YearPage::print_body {
+    $this->print_year_links();
+    """<article class="j-e j-e-years">\n""";
+        foreach var YearMonth m ($.months) {
+            $this->print_month($m);
+        }
+    """</article>\n""";
+}
+
+function YearPage::print_year_links() {
+    """<ul class="j-years-nav">\n""";
+    foreach var YearYear y ($.years) {
+        var string li_class = "j-nav-item j-years-nav-item";
+        if ($y.displayed) {
+            $li_class = $li_class + " j-years-nav-item-current";
+            }
+        """<li class="$li_class">""";
+            if ($y.displayed) {
+                """$y.year\n""";
+            } else {
+                """<a href="$y.url">$y.year</a>\n""";
+            }
+        """</li>\n""";
+    }
+    """</ul>\n""";
+}
+
+function YearPage::print_month(YearMonth m) {
+    if (not $m.has_entries) { return; }
+    print_calendar($m,"page");
+}
+
+function MonthDay::print_subjectlist() {
+    foreach var Entry e ($.entries) {
+        
+        """<li class="j-day-subjects-item">\n""";
+        print "<span class=\"e-time\">"+$e.time->time_format("short") + "</span> ";
+        if ($e.poster.username != $e.journal.username) {
+            $e.poster->print(); " ";
+            }
+        
+        post_status_icon($e);
+        
+        if ($e.subject != "") {
+            " <a href=\"$e.permalink_url\">$e.subject</a>";
+            } 
+            else {
+                 if($*text_nosubject == ""){
+                    $*text_nosubject = $*text_nosubject_month;
+                    }
+                print safe " <i><a href=\"$e.permalink_url\">$*text_nosubject</a></i>";
+                }
+        
+        if ($e.comments.count > 0 or $e.comments.screened) {
+            """<span class=\"c-count\">""";
+                if ($e.comments.count > 0) {
+                    print safe " - " + get_plural_phrase($e.comments.count, "text_read_comments");
+                }
+                if ($e.comments.screened) {
+                    print safe " <i>$*text_month_screened_comments</i>";
+                }
+            "</span>\n";
+        }
+        """</li>\n""";
+    }
+}
+
+function MonthPage::print_body {
+    """<div class="j-nav j-month-nav">\n """;
+        "<form method='post' action='$.redir.url'>";
+        $.redir->print_hiddens();
+        if ($.prev_url != "") { "<a href=\"$.prev_url\" class=\"j-month-nav-item j-month-nav-item-prev\">&larr;</a> \n"; }
+        if (size $.months > 1) {
+            "<select name='redir_key'>\n";
+            foreach var MonthEntryInfo mei ($.months) {
+                var string sel;
+                if ($mei.date.year == $.date.year and $mei.date.month == $.date.month) {
+                    $sel = " selected='selected'";
+                }
+                "<option value='$mei.redir_key'$sel>" + $mei.date->date_format($*lang_fmt_month_long) + "</option>";
+            }
+            "</select>\n<input type='submit' value='$*text_viewmonth_submit' />";
+        }
+        if ($.next_url != "") { "\n<a href=\"$.next_url\" class=\"j-month-nav-item j-month-nav-item-next\">&rarr;</a> \n"; }
+        "</form>\n";
+    """</div>""";
+    
+    """<article class="j-e j-e-month">\n
+        <div class="j-days-list">""";
+    foreach var MonthDay d ($.days) {
+        if ($d.has_entries) {
+            "<dl class=\"j-day\">\n";
+                "<dt class=\"j-day-date\"><a href=\"$d.url\">";
+                print lang_ordinal($d.day);
+                """</a></dt>\n
+                <dd class=\"j-day-subjects\"><ul class=\"j-day-subjects-list\">""";
+                    $d->print_subjectlist();
+                "</ul></dd>\n";
+            "</dl>\n";
+            }
+        
+        }
+    """</div>
+    </article>
+    """;    
+    
+}
+
+function DayPage::print_body() {
+    if ($.has_entries) {
+        "<h2 class=\"j-page-title j-page-title-day\">";
+        print _dateTime($.date, true);
+        "</h2>\n";
+
+        foreach var Entry e ($.entries) {
+            $this->print_entry($e);
+            $this->render_journalpromo();
+            }
+
+    } else {
+        """<article class="j-e j-e-day">""";
+        print safe "<p class=\"no-entries-text\">$*text_noentries_day</p>\n";
+        """</article>""";
+    }
+
+}
+
+function ItemRange::print() {
+
+    var Page p = get_page();
+    var EntryPage en_page = $p as EntryPage;
+    var Entry e = $en_page.entry;
+    var Link link_prev = $e->get_link("nav_prev");
+    var Link link_next = $e->get_link("nav_next");
+
+    if(not $en_page.viewing_thread) {
+        if($link_prev.url){
+            """
+            <div class="j-comments-prev-post"><a href="$link_prev.url">$link_prev.caption</a></div>
+            """;
+            }
+        if($link_next.url){
+            """
+            <div class="j-comments-next-post"><a href="$link_next.url">$link_next.caption</a></div>
+            """;
+            }
+        }
+
+    if ($.all_subitems_displayed) { return; }
+
+    var string prev_text = "&larr;&nbsp;$*text_comment_pages_backward";
+    var string next_text = "$*text_comment_pages_forward&nbsp;&rarr;";
+
+        
+        """
+        <div class="j-comments-pages-container">
+            <div class="j-comments-pages-prev">""";
+            if($.url_prev == ""){
+                """$prev_text """;
+                }
+                else {
+                    """  <a href="$.url_prev#comments">$prev_text</a> """;
+                    }            
+            """</div>
+                <ul class="j-comments-pages-list">""";
+                for (var int i = 1; $i <= $.total; $i++){
+                    var string link = $this->url_of($i) + "#comments";
+                    var string li_class = "j-comments-pages-item";
+                    var string link_out = """<a href="$link">$i</a>"""; 
+                        if($i == $.current) {
+                            $li_class = "$li_class j-comments-pages-current";
+                            $link_out = string($i); 
+                        }
+                        """<li class="$li_class">$link_out</li> """; 
+                    }
+                """</ul>
+            <div class="j-comments-pages-next">""";   
+                if($.url_next == "") {
+                    """$next_text""";
+                    }
+                    else {
+                    """<a href="$.url_next#comments">$next_text</a>""";
+                    }
+            """
+            </div>
+        </div>
+        """;
+
+}
+
+
+function entrypage_entrylinks (EntryPage entry_page, string place) {
+    var Page p = get_page();
+    var Entry e = $entry_page.entry;
+    var string comments_showspam = "";
+
+   
+    if ($e.comments.spam_counter > 0 and $e.comments.read_spam_url != "") {
+        if ($p.showspam) {
+            $comments_showspam = """<li class="j-comments-nav-item j-nav-comments-hidespam">""" + get_plural_phrase($e.comments.spam_counter, "text_read_spam_comments") + """</li> 
+            <li class="j-comments-nav-item j-comments-nav-dash">—</li> """;
+        } else {
+            $comments_showspam = """<li class="j-comments-nav-item j-nav-comments-showspam"><a href=\"$e.comments.read_spam_url#$*text_comments_id\">""" + get_plural_phrase($e.comments.spam_counter, "text_read_all_spam_comments") + """</a></li> 
+            <li class="j-comments-nav-item j-comments-nav-dash">—</li> """;
+        }
+    } else {
+        $comments_showspam = "";
+    }
+        
+    var string comments_count = string($e.comments.count);
+    var string readlink_text = get_plural_phrase($e.comments.count, "text_read_comments");
+  
+    if ($entry_page.viewing_thread or $p.showspam) {
+        var string toplink = (($entry_page.comment_pages.total > 1) ? ($entry_page.comment_pages->url_of($entry_page.comment_pages.current)) : $e.permalink_url) + "#$*text_comments_id";
+        $comments_count = """<a href="$toplink">$readlink_text</a>""";
+        } else {
+            $comments_count = $readlink_text;
+        }
+    
+
+    if ($e.comments.count > 0 and not $entry_page.entry.comments.locked) {
+        $comments_count = """<li class="j-comments-nav-item j-nav-comments-count">$comments_count</li> <li class="j-comments-nav-item j-comments-nav-dash">—</li> """;
+        } elseif ($e.comments.count > 0) {
+            $comments_count = """<li class="j-comments-nav-item j-nav-comments-count">$comments_count</li> """;
+            } else {
+                $comments_count = "";
+            }
+    
+    """<ul class="j-nav j-comments-nav j-comments-nav-$place">\n $comments_count $comments_showspam""";
+    if (not $entry_page.entry.comments.locked) {
+    """<li class="j-comments-nav-item j-nav-replylink">"""; $entry_page->print_reply_link({ "linktext" => $*text_post_comment, "target" => "topcomment", "reply_url" => $e.comments.post_url+"#$*text_addcomment_id" });"""</li>""";
+    }    
+    """\n</ul>\n""";
+}
+
+function EntryPage::print_body {
+    
+    var Page p = get_page();
+    var Entry e = $.entry;
+
+    if( viewer_logged_in() ) {
+        print_linkbar_buttons($e);
+        }
+    
+    $this->print_entry($e);
+
+    $this->render_journalpromo();
+
+    """<div id="$*text_comments_id" class="j-l-comments">\n<div class="j-l-comments-inner">\n""";
+
+    entrypage_entrylinks ($this,"top");
+     
+        if ($.entry.comments.enabled) {
+            $this->print_reply_container({ "target" => "topcomment" });
+
+            if(not $.viewing_thread) {
+                """<div class="j-comments-pages j-comments-pages-top">\n""";
+                    $.comment_pages->print();
+                """</div>""";
+                }
+
+            if ($.comment_pages.total_subitems > 0) {
+                
+                $this->print_multiform_start();
+            
+                $this->print_comments($.comments);
+            
+                entrypage_entrylinks ($this,"bottom");
+            
+                $this->print_reply_container({"target" => "bottomcomment"});
+                
+                """<div class="j-comments-pages j-comments-pages-bottom">\n""";
+                    $.comment_pages->print();
+                """</div>""";   
+
+                if( viewer_is_owner() ){
+                    """<div class="j-w-multyform">\n""";
+                    $this->print_multiform_actionline();
+                    """</div>\n""";
+                }
+
+                $this->print_multiform_end();
+                
+            }
+        }    
+    """</div>\n</div>\n""";    
+}
+
+function Comment::print_linkbar() {
+    var Page p = get_page();
+    var Link link;
+    foreach var string k ($.link_keyseq) {
+        $link = $this->get_link($k);
+
+        if( $k == "edit_comment" ){
+            if( ($p.view == "entry" and size $.replies > 0) or $p.view == "reply"){
+                $link = null;
+                }
+            }
+
+        if (defined $link) {
+                var string url = $link.url;
+                var string text = $link.caption;
+                var Image icon = $link.icon;
+                print safe """ <a href="$url" class="j-c-controls-item j-c-controls-item-$k" title="$text">$icon</a>\n""";  
+                $link->print_raw();
+            } 
+        }
+}
+
+
+function print_comment_body(Comment c) {
+
+    var Page p = get_page();
+    var string poster = defined $c.poster ? $c.poster->as_string() : "<i>$*text_poster_anonymous</i>";
+    var string commdate = _dateTime($c.time);
+
+    var string evenodd = $c.depth % 2 ? "j-p-odd" : "j-p-even";
+    var string hide_controls = $*hide_comment_controls ? " j-p-hide-comment-controls" : "";
+
+    var string commenthead_class = "j-c-head " + $evenodd + $hide_controls;
+
+    if (defined $c.userpic and $*comment_userpic_style != "off") {
+        var int w = $c.userpic.width;
+        var int h = $c.userpic.height;
+        """<div class="$commenthead_class">\n<div class="j-user-pic j-c-user-pic">\n<img src="$c.userpic.url" width="$w" height="$h" alt="$c.userpic.alttext" />\n</div>\n""";
+        } else {
+            """<div class="$commenthead_class j-p-no-userpic">\n""";
+            }
+
+     """<div class="j-c-head-inner">\n""";
+        if (defined $c.subject_icon or $c.subject != "") {
+            """<h5 class="j-c-subject">$c.subject_icon$c.subject</h5>\n""";
+        }
+        """<div class="j-c-poster">\n$poster""";
+            if ($c.metadata{"poster_ip"}) { " <span class=\"j-c-user-ip\">(" + $c.metadata{"poster_ip"} + ")</span>"; }
+        """</div>\n""";
+        
+        """<time class="j-c-date">$commdate</time>""";
+
+        if ($p.view == "entry" or $p.view == "reply") {
+            """<span class="j-c-controls">\n""";
+                $c->print_linkbar();
+
+                if ($*_EntryPage.multiform_on) {
+                    """<span class="j-c-multyform-check">\n""";
+                    print safe """ <label for="ljcomsel_$c.talkid">$*text_multiform_check</label>""";
+                    $c->print_multiform_check();
+                    """</span>\n""";
+                }
+            """</span>\n""";
+        }
+        "</div>\n";
+    "</div>\n";
+    """<div class="j-c-text">"""; $c->print_text(); "</div>\n";
+}
+
+
+function EntryPage::print_comment_full (Comment c) {
+   
+    var Page p = get_page();
+    var string poster = defined $c.poster ? $c.poster->as_string() : "<i>$*text_poster_anonymous</i>";
+    var string commdate = _dateTime($c.time);
+    
+    print_comment_body($c);
+
+    """<div class="j-nav j-c-nav"><ul class="j-c-nav-list">\n""";
+    if ($c.frozen) {
+        print safe "<li class=\"j-nav-item j-c-nav-item j-c-nav-item-frozen\">$*text_comment_frozen</li>\n";
+    } elseif($c.screened) {
+        var Link link = $c->get_link("unscreen_to_reply");
+        """<li class="j-nav-item j-c-nav-item j-c-nav-item-unscreen"><a href="$link.url" title="$link.caption">$link.caption</a></li>\n""";
+    } elseif ((not $c.spam) or ($p.showspam)) {
+        """<li class="j-nav-item j-c-nav-item j-c-nav-item-reply">"""; $c->print_reply_link({"linktext" => $*text_comment_reply}); """</li>""";
+    }
+    if ($c.parent_url != "") { print safe """<li class="j-nav-item j-c-nav-item j-c-nav-item-parent"><a href="$c.parent_url">$*text_comment_parent</a></li>\n"""; }
+    if (($c.thread_url != "") and (not $c.spam)) {
+        print safe """<li class="j-nav-item j-c-nav-item j-c-nav-item-thread"><a href="$c.thread_url">$*text_comment_thread</a></li>""";
+        if ($c.parent_url != "") {
+            """<li class="j-nav-item j-c-nav-item j-c-nav-item-expandcollapse">"""; $c->print_expand_collapse_links({ "expand"=>"%_", "collapse"=>"%_"}); """</li>\n""";
+        }
+    }
+    """<li class="j-nav-item j-c-nav-item j-c-nav-item-permalink"><a href="$c.permalink_url">$*text_permalink</a></li>\n""";
+    """</ul>\n</div>\n""";
+
+}
+
+function EntryPage::print_comment (Comment c) {
+    
+    var Page p = get_page();
+
+    var string comment_class = "j-c";
+    var string c_id = "id=\"$c.dom_id\"";
+
+    if ($c.full) {
+            $comment_class = $comment_class + " j-c-full";
+        } else {
+            $comment_class = $comment_class + " j-c-partial";
+        }
+
+    if ($c.frozen) {
+            $comment_class = $comment_class + " j-p-c-frozen";
+        } elseif($c.screened) {
+            $comment_class = $comment_class + " j-p-c-screened";
+            }
+
+    """<a name='$c.anchor'></a>\n""";
+            
+    if ($p.showspam and $c.spam) {
+            """<article $c_id class="$comment_class j-c-spam" style="margin-left: 0px;">\n""";
+            $this->print_comment_full($c);
+            "</article>\n";
+    } else {
+        var int indent = ($c.depth - 1) * 25;
+        """<article $c_id class="$comment_class" style="margin-left: ${indent}px;">\n""";
+        if ($c.spam) {
+            if (size $c.replies > 0) {
+                "(SPAM)";
+            }
+        } elseif ($c.full) {
+            $this->print_comment_full($c);
+        } else {
+            $this->print_comment_partial($c);
+        }
+        "</article>\n";
+    }
+    if (not $c.frozen) {
+        $c->print_reply_container({"class" => "quickreply"});
+    }
+}
+
+function ReplyPage::print_body {
+    if (not $.entry.comments.enabled) {
+        print safe "<h2 class=\"j-page-title j-page-title-nocomments\">$*text_reply_nocomments_header</h2><div>\n$*text_reply_nocomments</div>\n";
+        return;
+    }
+
+    var Image security;
+    var string comments_count;
+    $comments_count = get_plural_phrase($.entry.comments.count, "text_read_all_comments");
+    
+    if ($.replyto isa Entry) {
+        var Entry en = $.replyto as Entry;
+       
+        $security = $en.security_icon;
+
+        $this->print_entry($en);
+        }
+        elseif ($.replyto isa Comment) {
+           
+            var Comment c = $.replyto as Comment;
+
+            """
+            <article class="j-c j-c-full j-c-reply">\n""";
+                print_comment_body($c);
+            """</article>\n""";    
+
+            }
+
+    $this->render_journalpromo();
+            
+    """<article class="j-e j-e-reply-container">\n""";         
+    
+        """<ul class="j-nav j-comments-nav j-readcomments-nav">\n<li class="j-comments-nav-item"><a href="$.entry.permalink_url#$*text_comments_id">$comments_count</a>\n</li></ul>""";
+
+        """<div class="j-c j-c-reply-form-container">\n<div class="j-c-inner">\n""";
+           $.form->print();
+        """</div>\n</div>\n""";
+    """</article>\n""";
+}
+
+function TagsPage::print_body {
+    """<h2 class="j-page-title j-page-title-tags">$*text_tags_page_header</h2>\n""";
+    """<article class="j-e j-e-tags-page">""";        
+        print_widget_tags(5000,"page");
+    """</article>""";
+}
+
