@@ -111,7 +111,7 @@ propgroup presentation {
 
     property string designedby_place {
         des = "Place for author link";
-        values = "sidebar|Sidebar|footer|Footer";
+        values = "sidebar|Sidebar|content-footer|Content footer|page-footer|Page footer";
         noui = 1;
         }
         set designedby_place = "sidebar";
@@ -991,12 +991,12 @@ $alpha_header_style
         margin-left: $sb_layout_margin;
         } 
 
-.j-l-footer {
+.j-l-alpha-footer {
     clear: both;
     width: auto;
     margin-left: $alpha_margin_out;
     }
-    .j-p-layout-wt .j-l-footer {
+    .j-p-layout-wt .j-l-alpha-footer {
         margin-right: $alpha_margin_out;
         margin-left: 0;
         }""";
@@ -2016,7 +2016,7 @@ function footer() {
     if (($prev_url != "" and $prev_text != "") or ($next_url != "" and $next_text != "")) {
 
         """
-        <footer class="j-l-footer">
+        <footer class="j-l-footer j-l-alpha-footer">
             <ul class="j-nav j-page-nav">\n
                 """;
                 if ($prev_url != "") {
@@ -2041,12 +2041,11 @@ function footer() {
         }
 }
 
-function page_footer() {
-    
-    if($*designedby_place == "footer" and ($*designedby_name != "" or $*designedby_customhtml != "")) {
-        """<footer class="j-l-page-footer">""";
-                """<div class="j-w j-footer-w j-w-designedby"> """;
-                print_widget_designedby ("footer"); 
+function print_widget_designedby_footer( string place ) {
+    if($*designedby_place == $place and ($*designedby_name != "" or $*designedby_customhtml != "")) {
+        """<footer class="j-l-footer j-l-$place">""";
+                """<div class="j-w j-$place-w j-w-designedby">""";
+                print_widget_designedby ($place); 
                 """</div>""";
         """</footer>""";        
     }
@@ -2087,10 +2086,11 @@ function page_layout_default (Page p) {
                               </aside>
                               """;
                               }
+                          print_widget_designedby_footer("content-footer");    
                           """
                       </div>    
                   </div><!-- //j-l-content-->
-                  """; page_footer(); """
+                  """; print_widget_designedby_footer("page-footer"); """
                   <!-- end page content--> 
               </div>  <!-- // j-l-page-inner -->  
           </div>
@@ -2131,11 +2131,12 @@ function page_layout_headerin_alpha (Page p) {
                               </aside>
                               """;
                               }
+                          print_widget_designedby_footer("content-footer");    
                           """
                           <!-- end page content-->  
                       </div>    
                   </div>
-                  """; page_footer(); """
+                  """; print_widget_designedby_footer("page-footer"); """
               </div> <!-- // j-l-page-inner -->   
           </div>
         </div> <!-- // j-l-container -->
