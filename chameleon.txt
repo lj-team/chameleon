@@ -2013,7 +2013,7 @@ function footer() {
     var string prev_text = $*prev_text;
     var string next_text = $*next_text;
 
-    if (($prev_url != "" and $prev_text != "") or ($next_url != "" and $next_text != "") or ($*designedby_place == "footer" and ($*designedby_name != "" or $*designedby_customhtml != "" ))) {
+    if (($prev_url != "" and $prev_text != "") or ($next_url != "" and $next_text != "")) {
 
         """
         <footer class="j-l-footer">
@@ -2035,19 +2035,23 @@ function footer() {
                 """;
                 }
                 """
-            </ul>\n
-            """;
-            if($*designedby_place == "footer" and ($*designedby_name != "" or $*designedby_customhtml != "")) {
-                    """<div class="j-w j-footer-w j-w-designedby"> """;
-                    print_widget_designedby ("footer"); 
-                    """</div>""";
-                }
-            """
+            </ul>\n            
         </footer>                    
         """;
         }
 }
 
+function page_footer() {
+    
+    if($*designedby_place == "footer" and ($*designedby_name != "" or $*designedby_customhtml != "")) {
+        """<footer class="j-l-page-footer">""";
+                """<div class="j-w j-footer-w j-w-designedby"> """;
+                print_widget_designedby ("footer"); 
+                """</div>""";
+        """</footer>""";        
+    }
+    
+}
 
 #------------- Page ------------- 
 
@@ -2086,11 +2090,12 @@ function page_layout_default (Page p) {
                           """
                       </div>    
                   </div><!-- //j-l-content-->
+                  """; page_footer(); """
                   <!-- end page content--> 
-              </div>    
+              </div>  <!-- // j-l-page-inner -->  
           </div>
-        </div>
-    </div>  
+        </div>  <!-- // j-l-container -->
+    </div>  <!-- // j-l-wrapper -->
   """;    
   return;
 }
@@ -2130,10 +2135,11 @@ function page_layout_headerin_alpha (Page p) {
                           <!-- end page content-->  
                       </div>    
                   </div>
-              </div>    
+                  """; page_footer(); """
+              </div> <!-- // j-l-page-inner -->   
           </div>
-        </div>
-     </div> 
+        </div> <!-- // j-l-container -->
+     </div> <!-- // j-l-wrapper -->
   """;    
   return;
 }
@@ -3168,4 +3174,3 @@ function TagsPage::print_body {
         print_widget_tags(5000,"page");
     """</article>""";
 }
-
