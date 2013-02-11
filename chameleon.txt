@@ -1539,7 +1539,7 @@ function print_calendar(YearMonth mon, string place) {
         var int th_counter = 0;
         foreach var int d ($weekdays) {
             $th_counter++;
-            "<th class=\"j-calendar-weekday j-calendar-weekday-$th_counter\">"+$*lang_dayname_shorter[$d]+"</th>\n";
+            "<th class=\"j-calendar-weekday j-calendar-weekday-$th_counter\"><span>"+$*lang_dayname_shorter[$d]+"</span></th>\n";
         }
         println "\n</tr>\n</thead>\n";
     
@@ -2562,10 +2562,11 @@ function entry_class (Entry e) : string {
 function print_entry_default(Entry e, string e_class) {
     var Page p = get_page();
     var string id = " id=\"entry-$e.journal.username-$e.itemid\"";
+    var string datetime = $e.time->date_format("%%yyyy%%-%%mm%%-%%dd%%");
 
     """<article $id class="$e_class">\n""";
 
-    """<time class="j-e-date">""" + _dateTime ($e.time) + """</time>\n""";
+    """<time class="j-e-date" datetime="$datetime">""" + _dateTime ($e.time) + """</time>\n""";
     
     print_author($e);
 
