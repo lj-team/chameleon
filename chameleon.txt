@@ -641,7 +641,6 @@ propgroup sidebars {
         string_mode = "html";
         note = "This allows to create your custom block in the sidebar. If the field is empty this block will not be displayed in the sidebar";
         }
-
 }  
 
 propgroup entry = "Entry";
@@ -652,7 +651,19 @@ propgroup entry {
         size = 80;
         note = "This affects the format of date and time which are displayed in your journal. If the field is empty they will be displayed in standard format for your journal";
         }
-        
+    
+    property OptionsDelimeter delim_images_in_entry {
+        des = "Images in entry";
+        noui = 1;
+        } 
+
+    property string resize_images { 
+        des = "Resize images in entry";
+        values = "resize-images-without-sizes|Resize images without sizes only|resize-all-images|Resize all images|no-resize-images|No resize";
+        noui = 1;
+        }         
+        set resize_images = "resize-images-without-sizes";
+
     property OptionsDelimeter delim_entry_upics {
         des = "Userpics in entry";
         } 
@@ -1057,7 +1068,8 @@ function _global_init_ {
         $*body_class = $*body_class + " j-p-promo-on";
         }    
 
- 
+    $*body_class = $*body_class + " j-p-$*resize_images";
+
     $*header_class = "j-l-header";
     $*beta_class = "j-l-beta";
 
@@ -1311,7 +1323,7 @@ function print_nav(string place) {
             foreach var string v ($layout_views_order) {#$p.views_order
                     var string url = $p.view_url{$v};
                     var string text  = $layout_views_names{$v};#lang_viewname($v);
-                    var string class = "j-journal-nav-item j-$nav_parent-nav-item-$v";
+                    var string class = "j-journal-nav-item j-$nav_parent-nav-item j-$nav_parent-nav-item-$v";
 
                     if($v == $p.view) {
                         $class = $class + " j-journal-nav-item-current";
@@ -1331,12 +1343,12 @@ function print_nav(string place) {
           
                 # Memories
                 if($memories_url.url != "") {
-                    println safe """<li class="j-journal-nav-item j-$nav_parent-nav-item-memories"><a href="$memories_url.url" title="$*text_nav_memories">$*text_nav_memories</a></li>\n""";
+                    println safe """<li class="j-journal-nav-item j-$nav_parent-nav-item j-$nav_parent-nav-item-memories"><a href="$memories_url.url" title="$*text_nav_memories">$*text_nav_memories</a></li>\n""";
                 }
          
            if ($p.journal.website_url != "") {
                     var string website_value = $p.journal.website_name ? $p.journal.website_name : $*text_website_default_name;
-                    println safe """<li class="j-journal-nav-item j-$nav_parent-nav-item-website"><a href="$p.journal.website_url">$website_value</a></li>\n""";
+                    println safe """<li class="j-journal-nav-item j-$nav_parent-nav-item j-$nav_parent-nav-item-website"><a href="$p.journal.website_url">$website_value</a></li>\n""";
                 }
         """</ul>\n
         </div>\n
@@ -1367,12 +1379,25 @@ function header_vcard() {
     header_upic("in_vcard");
     
     place_socicons_bytype("in_vcard");  
+
+    var string prop_title_length = "";
+    var string prop_title_length_pref = "j-p-title-more-than";
+
+    if($title->length() > 75){
+        $prop_title_length = " $prop_title_length_pref-75";    
+        }
+        elseif($title->length() > 50){
+            $prop_title_length = " $prop_title_length_pref-50";    
+            }
+            elseif($title->length() > 25){
+                $prop_title_length = " $prop_title_length_pref-25";    
+                }
        
     """<hgroup>\n""";
 
         """<h1 class="j-user-name j-header-user-name">$p.journal</h1>\n""";
     
-        """<h2 class="j-user-journal-title">""";
+        """<h2 class="j-user-journal-title $prop_title_length">""";
             var string friends_url = $p.view_url{"friends"};
             if ($p isa FriendsPage) {
                 print safe """<a href="$friends_url">$title</a>""";
@@ -2205,7 +2230,7 @@ function Page::print () {
     $this->print_stylesheets();
 
     if ($*linked_stylesheet) {
-        print safe """\n    <link rel="stylesheet" type="text/css" href="$*linked_stylesheet" />""";
+        print safe """\n    <link rel="stylesheet" href="$*linked_stylesheet" />""";
     }
 
     print safe """<title>""" + $this->title() + """</title>\n""";
@@ -2421,7 +2446,7 @@ function Entry::print_linkbar () {
     }
 }
 
-function _dateTime (Date time, bool only_date) : string {
+function _dateTime (Date time, bool only_date, string context) : string {
 
     var Page p = get_page();
     var string result = "";
@@ -2429,6 +2454,10 @@ function _dateTime (Date time, bool only_date) : string {
     var int month = int($time->date_format("%%m%%"));
     var string date_format;
     var string time_format;
+
+    if($context == ""){
+        $context = "e";
+        }
 
    if($*date_format != "" and $only_date == false){
         #if custom format not empty
@@ -2440,30 +2469,30 @@ function _dateTime (Date time, bool only_date) : string {
             $date_format = $time->date_format("%%d%% ${months[$month]} %%yyyy%%");
             $time_format = $time->date_format("%%H%%:%%min%%");
 
-            $result = """<span class="j-e-date-day">$date_format</span>""";
+            $result = """<span class="j-$context-date-day">$date_format</span>""";
 
             if (string($currentDate.year) == $time->date_format("%%yyyy%%") and $only_date == false) {
                 #$format = "%%d%% ${months[$month]} %%yyyy%%, %%H%%:%%min%%";
-                $result = """$result<span class="j-e-date-comma">,</span> <span class="j-e-date-time">$time_format</span>""";
+                $result = """$result<span class="j-$context-date-comma">,</span> <span class="j-$context-date-time">$time_format</span>""";
                 }
 
             } else {
                     $date_format = $time->date_format("long");
                     $time_format = $time->date_format("%%hh%%:%%min%% %%a%%m");
 
-                    $result = """<span class="j-e-date-day">$date_format</span>""";
+                    $result = """<span class="j-$context-date-day">$date_format</span>""";
 
                     if($only_date == false){
-                         $result = """$result<span class="j-e-date-comma">,</span> <span class="j-e-date-time">$time_format</span>""";
+                         $result = """$result<span class="j-$context-date-comma">,</span> <span class="j-$context-date-time">$time_format</span>""";
                          }
                 }
 
     return $result;
 }
 
-function _dateTime (Date time) : string {
+function _dateTime (Date time, string context) : string {
 
-    var string result = _dateTime ($time, false);
+    var string result = _dateTime ($time, false, $context);
     return $result;
 
     }
@@ -2566,7 +2595,7 @@ function print_entry_default(Entry e, string e_class) {
 
     """<article $id class="$e_class">\n""";
 
-    """<time class="j-e-date" datetime="$datetime">""" + _dateTime ($e.time) + """</time>\n""";
+    """<time class="j-e-date" datetime="$datetime">""" + _dateTime ($e.time, "e") + """</time>\n""";
     
     print_author($e);
 
@@ -2598,7 +2627,7 @@ function print_entry_title_date(Entry e, string e_class) {
         post_status_icon($e);
         """<a href="$e.permalink_url">"""; post_subject($e); """</a>\n""";
     "</h3>\n";
-    """<time class="j-e-date">""" + _dateTime ($e.time) + """</time>\n""";
+    """<time class="j-e-date">""" + _dateTime ($e.time, "e") + """</time>\n""";
 
     print_author ($e);
 
@@ -2623,7 +2652,7 @@ function print_entry_author_date_title (Entry e, string e_class) {
 
     print_author ($e);
 
-    """<time class="j-e-date">""" + _dateTime ($e.time) + """</time>\n""";
+    """<time class="j-e-date">""" + _dateTime ($e.time, "e") + """</time>\n""";
 
     """<h3 class="j-e-title">\n""";
         post_status_icon($e);
@@ -2810,7 +2839,7 @@ function MonthPage::print_body {
 function DayPage::print_body() {
     if ($.has_entries) {
         "<h2 class=\"j-page-title j-page-title-day\">";
-        print _dateTime($.date, true);
+        print _dateTime($.date, true, "page-title");
         "</h2>\n";
 
         foreach var Entry e ($.entries) {
@@ -3014,7 +3043,7 @@ function print_comment_body(Comment c) {
 
     var Page p = get_page();
     var string poster = defined $c.poster ? $c.poster->as_string() : "<i>$*text_poster_anonymous</i>";
-    var string commdate = _dateTime($c.time);
+    var string commdate = _dateTime($c.time, "c");
 
     var string evenodd = $c.depth % 2 ? "j-p-odd" : "j-p-even";
     var string hide_controls = $*hide_comment_controls ? " j-p-hide-comment-controls" : "";
@@ -3061,7 +3090,7 @@ function EntryPage::print_comment_full (Comment c) {
    
     var Page p = get_page();
     var string poster = defined $c.poster ? $c.poster->as_string() : "<i>$*text_poster_anonymous</i>";
-    var string commdate = _dateTime($c.time);
+    var string commdate = _dateTime($c.time, "c");
     
     print_comment_body($c);
 
