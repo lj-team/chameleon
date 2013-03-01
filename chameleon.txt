@@ -801,6 +801,11 @@ propgroup text {
         noui = 1;
         } 
         set text_viewmonth_submit = "View";
+
+    property string text_comment_local_time {
+        noui = 1;
+        } 
+        set text_comment_local_time = "local";    
  
 }
 
@@ -1221,7 +1226,7 @@ function print_socicons(string place) {
         var Page p = get_page();
         var string rsslink = ($p.data_link{"rss"})?($p.data_link{"rss"}.url):"$*base_url/data/rss";
         var Link addlink = $p.journal -> get_link("add_friend");
-        var string addfriend = "$*SITEROOT/friends/add.bml?user=$p.journal.name"; #($addlink.url != "") ? $addlink.url : "";
+        var string addfriend = "$*SITEROOT/friends/add.bml?user=$p.journal.username"; #($addlink.url != "") ? $addlink.url : "";
 
         var string nav_parent = "header";
         
@@ -1383,13 +1388,13 @@ function header_vcard() {
     var string prop_title_length = "";
     var string prop_title_length_pref = "j-p-title-more-than";
 
-    if($title->length() > 75){
+    if($title->length_utf8() > 75){
         $prop_title_length = " $prop_title_length_pref-75";    
         }
-        elseif($title->length() > 50){
+        elseif($title->length_utf8() > 50){
             $prop_title_length = " $prop_title_length_pref-50";    
             }
-            elseif($title->length() > 25){
+            elseif($title->length_utf8() > 25){
                 $prop_title_length = " $prop_title_length_pref-25";    
                 }
        
@@ -3043,7 +3048,15 @@ function print_comment_body(Comment c) {
 
     var Page p = get_page();
     var string poster = defined $c.poster ? $c.poster->as_string() : "<i>$*text_poster_anonymous</i>";
-    var string commdate = _dateTime($c.time, "c");
+    var DateTime time =  $c.time;
+    if($c.time_remote){
+        $time = $c.time_remote;
+        }
+    var string commdate = _dateTime($time, "c");
+
+    if($c.time_remote){
+        $commdate = """$commdate <span class="j-c-date-local">($*text_comment_local_time)</span>""";
+        }
 
     var string evenodd = $c.depth % 2 ? "j-p-odd" : "j-p-even";
     var string hide_controls = $*hide_comment_controls ? " j-p-hide-comment-controls" : "";
