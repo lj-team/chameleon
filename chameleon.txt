@@ -654,15 +654,13 @@ propgroup entry {
     
     property OptionsDelimeter delim_images_in_entry {
         des = "Images in entry";
-        noui = 1;
         } 
 
     property string resize_images { 
         des = "Resize images in entry";
         values = "resize-images-without-sizes|Resize images without sizes only|resize-all-images|Resize all images|no-resize-images|No resize";
-        noui = 1;
         }         
-        set resize_images = "resize-images-without-sizes";
+        set resize_images = "resize-all-images";
 
     property OptionsDelimeter delim_entry_upics {
         des = "Userpics in entry";
@@ -670,7 +668,7 @@ propgroup entry {
             
     property bool recent_show_upic { 
         des = "Show userpics on Recent Entries page";
-        note = "This allows to set the display of your userpics on your Recent entries pag";
+        note = "This allows to set the display of your userpics on your Recent entries page";
         } 
         set recent_show_upic = true;
         
@@ -853,6 +851,20 @@ propgroup customcss {
         string_mode = "css";
         noui = 1;
         }    
+
+    property string{} elements_index {
+        des = "Save elements order for css output";
+        noui = 1;
+        }
+    property string{}{} css_properties {
+        des = "Container of css properties for creating css output";
+        noui = 1;
+        }  
+    property string tab {
+        des = "Tab for formatting Css";
+        noui = 1;
+        }
+        set tab = "    ";    
     
 }
 
@@ -862,160 +874,310 @@ function bool(string input) : bool {
     return $input?true:false;
     }
 
-function check_prop_inits (string prop_value, string inits) : string {
-    var string out = "";
-    if($prop_value){
-        if( $prop_value->contains( $inits ) ) {
-            $out = $prop_value;
+function check_http ( string value ) : string {
+    if(not $value->contains("http")){
+            $value = $*STATDIR + $value;
             }
-            else {
-                $out = $prop_value + $inits;
+    return $value;        
+}
+
+#------------- Creating styles -------------------   
+
+function check_possible_units ( string value ) : bool {
+    
+    var bool contain_units = false;
+    var string[] possible_units = ["em","px","%"];
+    
+    foreach var string unit_item ($possible_units) {
+        if( $value->contains( $unit_item ) ) {
+            $contain_units = true;    
+            }
+        }
+    return $contain_units;    
+}
+
+function check_prop_units ( string value, string units ) : string {
+    
+    if( $value != "" and $units != "" ){
+  
+        if(check_possible_units ( $value ) == false 
+            and $value != "0"
+            and not $value->contains("auto")) {
+                $value = $value + "$units";    
+            }
+        }
+    
+    return  $value;    
+}
+
+function values_to_string ( string{} values_array ) : string {
+    
+    var string out;
+    
+    foreach var string key ( $values_array ) {
+        if($values_array{$key} != ""){
+            
+            var string value = $values_array{$key};
+            $value = check_prop_units ( $value, "px" ); 
+            
+            $out = $out + $*tab + "$key: $value;\n"; 
+            }
+        }
+    return $out;    
+}
+
+#------------- Css collector -------------------    
+
+function css_collector (){
+    
+    #------------- Prepare some values -------------
+    
+    if ( $*page_width_type == "fixed" ){
+        $*min_page_width = "";
+        $*max_page_width = "";
+        }
+    else {
+        $*fixed_page_width = "";        
+        }
+                
+    if ( $*header_image_height == "" ){
+        $*header_image_height = "200";
+        }    
+            
+    if ( $*sidebar_width == "" ){
+        $*sidebar_width = $*default_sidebar_width;
+        }     
+    
+    var string alpha_margin = string ( int($*sidebar_width) + int($*space_between_blocks) );
+    var string negative_beta_margin = "-$*sidebar_width";
+    
+    if ( $*alpha_full_width == true or $*hide_sidebar == true ) {
+        $*sidebar_width = "100%";
+        $alpha_margin = "0";
+        $negative_beta_margin = "0";
+        }
+            
+            
+    $*elements_index = {
+        "0" => "BODY",
+        "1" => ".j-l-page",
+        "2" => ".j-w-header-image-inner",
+        "3" => ".j-l-alpha-header",
+        "4" => ".j-p-layout-wt .j-l-alpha-header",
+        "5" => ".j-l-alpha-content",
+        "6" => ".j-p-layout-wt .j-l-alpha-content",
+        "7" => ".j-l-alpha-footer",
+        "8" => ".j-p-layout-wt .j-l-alpha-footer",
+        "9" => ".j-l-beta",
+        "10" => ".j-p-layout-wt .j-l-beta"
+        };
+    #------------- Collect values -------------    
+    
+    $*css_properties = {
+        "BODY" => {
+            "backgound-color" => "$*body_bgcolor",
+            "backgound-image" => "$*body_image_url",
+            "backgound-repeat" => "$*body_image_repeat",
+            "backgound-position" => "$*body_image_position",
+            "backgound-attachment" => "$*body_image_attachment",
+            },
+        ".j-l-page" => {
+            "width" => "$*fixed_page_width",
+            "min-width" => "$*min_page_width",
+            "max-width" => "$*max_page_width",
+            "backgound-color" => "$*feed_bgcolor",
+            "backgound-image" => "$*feed_image_url",
+            "backgound-repeat" => "$*feed_image_repeat",
+            "backgound-position" => "$*feed_image_position"
+            },    
+        ".j-w-header-image-inner" => {
+            "height" => "$*header_image_height",
+            "backgound-image" => "$*header_image_url",
+            "backgound-repeat" => "$*header_image_repeat",
+            "backgound-position" => "$*header_image_position"
+            },  
+        ".j-l-alpha-header" => {
+            "margin-left" => "$alpha_margin"
+            }, 
+            ".j-p-layout-wt .j-l-alpha-header" => {
+                "margin-left" => "0",
+                "margin-right" => "$alpha_margin"
+                },  
+        ".j-l-alpha-content" => {
+            "width" => "auto",
+            "margin-left" => "$alpha_margin"
+            }, 
+            ".j-p-layout-wt .j-l-alpha-content" => {
+                "margin-left" => "0",
+                "margin-right" => "$alpha_margin"
+                },  
+        ".j-l-alpha-footer" => {
+            "width" => "auto",
+            "margin-left" => "$alpha_margin"
+            }, 
+            ".j-p-layout-wt .j-l-alpha-footer" => {
+                "margin-left" => "0",
+                "margin-right" => "$alpha_margin"
+                },                
+        ".j-l-beta" => {
+            "float" => "left",
+            "width" => "$*sidebar_width",
+            "margin-right" => "$negative_beta_margin"
+            },     
+            ".j-p-layout-wt .j-l-beta" => {
+                "float" => "right",
+                "width" => "",
+                "margin-right" => "0",
+                "margin-left" => "$negative_beta_margin"
+                },     
+        }; 
+}  
+
+#-------------- Position and float ----------------
+
+function get_elem_position ( string elem ) : string { 
+    
+    var string out = "";
+    
+    if( $*css_properties{$elem} ) {
+        var string{} elem_properties = $*css_properties{$elem};
+        
+        var string float = $elem_properties{"float"};
+        
+        if($float != "") {
+            $out = $out + $*tab + "float: $float;\n"; 
+            }
+    }   
+    
+    return $out; 
+}
+
+#-------------- Width and height ----------------
+
+function get_elem_dimension ( string elem ) : string { 
+    
+    var string out = "";
+    
+    if( $*css_properties{$elem} ) {
+        
+        var string{} elem_properties = $*css_properties{$elem};
+        
+         var string{} values_array  = {
+            "width" => $elem_properties{"width"},
+            "height" => $elem_properties{"height"},
+            "min-width" => $elem_properties{"min-width"},
+            "max-width" => $elem_properties{"max-width"}
+            };
+  
+        $out = values_to_string ( $values_array );
+        }
+        
+    return $out;    
+}    
+
+#-------------- Indents ----------------
+
+function get_elem_indents ( string elem ) : string { 
+    
+    var string out = "";
+    
+    if( $*css_properties{$elem} ) {
+        
+        var string{} elem_properties = $*css_properties{$elem};
+        
+         var string{} values_array  = {
+            "margin" => $elem_properties{"margin"},
+            "margin-right" => $elem_properties{"margin-right"},
+            "margin-left" => $elem_properties{"margin-left"},
+            "padding" => $elem_properties{"padding"}
+            };
+  
+        $out = values_to_string ( $values_array );
+        
+        }
+        
+    return $out;    
+}   
+
+#-------------- Background ----------------
+
+function get_elem_background ( string elem ) : string { 
+    
+    var string out = "";
+    
+    if( $*css_properties{$elem} ) {
+        var string{} elem_properties = $*css_properties{$elem};
+        
+        var string bg_color = $elem_properties{"backgound-color"};
+        
+        var string bg_image = $elem_properties{"backgound-image"};
+        var string bg_repeat = $elem_properties{"backgound-repeat"};
+        var string bg_position = $elem_properties{"backgound-position"};
+        var string bg_attachment = $elem_properties{"backgound-attachment"};
+        
+        if($bg_color != "" or $bg_image != "") {
+            $out = $out + $*tab + "background:"; 
+            }
+        
+        if($bg_color != ""){
+            $out = "$out $bg_color"; 
+            }
+        
+        if($bg_image  != ""){
+            $bg_image = check_http( $bg_image );
+            
+            $out = "$out url($bg_image)";
+            
+            if($bg_repeat != ""){
+                $out = "$out $bg_repeat"; 
                 }
-        }        
-        return $out;        
-    }
+            if($bg_position != ""){
+                $out = "$out $bg_position"; 
+                }    
+            if($bg_attachment != ""){
+                $out = "$out $bg_attachment"; 
+                }    
+           
+            } # end bgimage
+        
+        if( $out != "" ){
+            $out = "$out;\n";
+            }
+        
+        }    
+    
+    return $out;
+}
+
+function get_styles_for_element ( string elem ) : string {
+    var string out = "";
+    
+    if($elem != "") {
+        $out = $out + "$elem {\n"; 
+        $out = $out + get_elem_position ( $elem ); 
+        $out = $out + get_elem_dimension ( $elem ); 
+        $out = $out + get_elem_indents ( $elem );
+        $out = $out + get_elem_background ( $elem );
+        $out = $out + $*tab + "}\n"; 
+        }
+    return $out;
+}
 
 #------------- Internal styles -------------------    
+
 function internal_css (){
 
+    css_collector ();
 
-    $*hidden_user_css = """
+ $*hidden_user_css = """
 /* User options
----------------------------------- */""";
-
-    #---------- Body background ----------------
-
-    if($*body_image_url != "" or $*body_bgcolor != ""){
-        
-        $*hidden_user_css = $*hidden_user_css + """
-BODY {
-    background: $*body_bgcolor""";
-    if($*body_image_url != ""){
-        $*hidden_user_css = $*hidden_user_css + """ url($*body_image_url) $*body_image_repeat $*body_image_position $*body_image_attachment """;
-        }
-        $*hidden_user_css = $*hidden_user_css + """;\n}""";    
-    }
-
-    #---------- Feed background ----------------
-
-    if($*feed_image_url != "" or $*feed_bgcolor != ""){
-        
-        $*hidden_user_css = $*hidden_user_css + """
-            .j-l-page {
-            background: $*feed_bgcolor """;
-            if($*feed_image_url != ""){
-                    $*hidden_user_css = $*hidden_user_css + """ url($*feed_image_url) $*feed_image_repeat $*feed_image_position """;
-                }
-        $*hidden_user_css = $*hidden_user_css + """}""";    
-    }
-
-    #---------- Header background and height ----------------
-
-    if($*header_image_url != ""){
+---------------------------------- */\n\n""";
     
-        if(not $*header_image_url->contains("http")){
-            $*header_image_url = $*STATDIR + $*header_image_url;
-            }
-
-        $*header_class = $*header_class + " j-p-header-image-$*header_image_place";
+    foreach var int i (0 .. size $*elements_index) {
         
-        if($*header_image_height == ""){
-            $*header_image_height = "200";
-            }
-        if(not $*header_image_height->contains("px")){
-            $*header_image_height = $*header_image_height + "px";
-            }
-
-        $*hidden_user_css = $*hidden_user_css + """
-            .j-w-header-image-inner {
-            height: """ + $*header_image_height + """;
-            background: url($*header_image_url) $*header_image_repeat $*header_image_position;
-        }""";    
-    }
-
-    #---------- Feed width ----------------
-
-    var string page_width_out = "";
-    if ($*page_width_type == "fixed"){
-            var string fix_width = check_prop_inits ($*fixed_page_width, "px");  
-            $page_width_out = "width: $fix_width;";
-        }    
-    elseif ($*page_width_type == "flexible"){
-          var string max_width = check_prop_inits ($*max_page_width, "px");  
-          var string min_width = check_prop_inits ($*min_page_width, "px");  
-          $page_width_out = "max-width: $max_width;\n min-width: $min_width;";
+        var string key = $*elements_index{$i};
+        $*hidden_user_css = $*hidden_user_css + get_styles_for_element ( $key );
         }
-  
-    #---------- Sidebar width ----------------
-
-    if($*sidebar_width == ""){
-        $*sidebar_width = $*default_sidebar_width;
-        }
-    var string sb_width = check_prop_inits ($*sidebar_width, "px");  
-    var string sb_width_out = "width: $sb_width;";  
-    var string sb_layout_margin = "-$sb_width";
-
-    #space_between_blocks
-    var int alpha_margin = int($*sidebar_width) + int($*space_between_blocks);
-    var string alpha_margin_out = $alpha_margin + "px"; 
-
-    if ( $*alpha_full_width == true or $*hide_sidebar == true ) {
-        $sb_width_out = "width: 100%;";
-        $alpha_margin_out = "0"; 
-        $sb_layout_margin = "0";
-    }
-
-    var string alpha_header_style = "";
-
-    if($*page_layout == "headerin_alpha"){
-    $alpha_header_style = """
-.j-l-alpha-header {
-    margin-right: 0;
-    margin-left: $alpha_margin_out;
-    }
-    .j-p-layout-wt .j-l-alpha-header {
-        margin-left: 0;
-        margin-right: $alpha_margin_out;
-        }
-        """;
-        } 
-
-$*hidden_user_css = $*hidden_user_css + """ 
-/* Layout
----------------------------------- */  
-.j-l-page {
-    $page_width_out
-    }
-$alpha_header_style
-.j-l-alpha-content {
-    width: auto;
-    margin-left: $alpha_margin_out;
-    }
-   .j-p-layout-wt .j-l-alpha-content {
-        margin-right: $alpha_margin_out;
-        margin-left: 0;
-       }           
-
-.j-l-beta {
-    float: left;
-    $sb_width_out
-    margin-right: $sb_layout_margin;
-    }
-    .j-p-layout-wt .j-l-beta {
-        float: right;
-        margin-right: 0;
-        margin-left: $sb_layout_margin;
-        } 
-
-.j-l-alpha-footer {
-    clear: both;
-    width: auto;
-    margin-left: $alpha_margin_out;
-    }
-    .j-p-layout-wt .j-l-alpha-footer {
-        margin-right: $alpha_margin_out;
-        margin-left: 0;
-        }""";
 }
 
 #------------- Global init -------------------    
@@ -1078,17 +1240,40 @@ function _global_init_ {
     $*header_class = "j-l-header";
     $*beta_class = "j-l-beta";
 
-    if($*page_layout == "headerin_alpha"){
+    if( $*page_layout == "headerin_alpha" ){
         $*header_class = $*header_class + " j-l-alpha-header";
         }
 
-    if($*place_sn_links == "header"){
+    if( $*place_sn_links == "header" ){
         $*header_class = $*header_class + " j-p-social-networks-$*sn_icons_size";
         }
-        elseif($*place_sn_links == "profile"){
-            $*beta_class = $*beta_class + " j-p-social-networks-$*sn_icons_size";
-            }
+    elseif( $*place_sn_links == "profile" ){
+        $*beta_class = $*beta_class + " j-p-social-networks-$*sn_icons_size";
+        }
 
+    if( $*header_image_url != "" ){
+        $*header_class = $*header_class + " j-p-header-image-$*header_image_place";
+        } 
+    else {
+        $*header_class = $*header_class + " j-p-header-no-image";
+        }   
+
+    var string header_image_status = $*header_image_place;
+    if( $*header_image_url == "" ){
+        $header_image_status = "none";
+        }    
+    var string icons_place_type = "$*place_sn_links";
+    if( $*place_sn_links != "profile" ){
+        var string icons_type = "text";
+        if( $*sn_icons_size != "text" ){
+            $icons_type = "buttons";
+            }
+        $icons_place_type = $icons_place_type + "-$icons_type";    
+        }
+    
+    var string body_properties_class = "j-p--i-$header_image_status--m-$*menu_position j-p--i-$header_image_status--m-$*menu_position--sn-$icons_place_type";    
+    $*body_class = $*body_class + " $body_properties_class";
+    
     #-------- Links ----------------------
    
     var string prev_url = "";
@@ -1174,7 +1359,7 @@ function print_widget_list (string[][] list, string intname) {
             }
         if ($scount == size $list) {
             $li_class = $li_class + " last";
-        } 
+            } 
 
         $scount++;
         print safe """<li class="$li_class">$li_content</li> """;
@@ -1213,8 +1398,8 @@ function Page::print_stylesheets() {
             println """/* Custom Css\n---------------------------------- */""";
             println safe $*custom_css;
             }
+        println """/*---------------------------------- */""";    
         end_css();
-        println """/*---------------------------------- */""";
         println """</style>""";
     }
 }
@@ -1281,13 +1466,13 @@ function place_socicons_bytype (string icons_place) {
 
     if(($*sn_icons_size == "big" or $*sn_icons_size == "small") and $icons_place == "before_nav") {
         print_socicons("header");
-    }
+        }
     elseif(($*sn_icons_size == "big" or $*sn_icons_size == "small") and $icons_place == "before_vcard" and $*menu_position == "in_beta") {
         print_socicons("header");
-    }
+        }
     elseif(($*sn_icons_size == "text") and $icons_place == "in_vcard") {
         print_socicons("header");
-    }
+        }
 }
 
 
@@ -1312,16 +1497,16 @@ function print_nav(string place) {
 
         var string nav_parent = "header";
         
-        if($place->contains("beta")) {
+        if( $place->contains("beta") ) {
             $nav_parent = "beta";
             }       
 
-        if($place != "in_beta"){
+        if( $place != "in_beta" ){
             place_socicons_bytype("before_nav");
             } 
 
         """
-        <div class="j-w j-$nav_parent-w j-w-journal-nav j-p-$place-nav">\n
+        <div class="j-w j-$nav_parent-w j-w-journal-nav j-p-$place-nav" role="navigation">\n
         """;
 
         """<ul class="j-nav j-$nav_parent-nav j-journal-nav">\n """;
@@ -1330,18 +1515,18 @@ function print_nav(string place) {
                     var string text  = $layout_views_names{$v};#lang_viewname($v);
                     var string class = "j-journal-nav-item j-$nav_parent-nav-item j-$nav_parent-nav-item-$v";
 
-                    if($v == $p.view) {
+                    if( $v == $p.view ) {
                         $class = $class + " j-journal-nav-item-current";
-                    }
-                    if($v == $p.views_order[0]) {
+                        }
+                    if( $v == $p.views_order[0] ) {
                         $class = $class + " first";
-                    }
+                        }
           
                     var string class_out = " class=\"$class\"";
                     
-                    if($text){
+                    if( $text != "" ){
                         print """<li$class_out><a href="$url" title="$text">$text</a></li>\n""";
-                    }
+                        }
                 }
           
                 var Link memories_url = $p.journal->get_link("memories");
@@ -1391,29 +1576,29 @@ function header_vcard() {
     if($title->length_utf8() > 75){
         $prop_title_length = " $prop_title_length_pref-75";    
         }
-        elseif($title->length_utf8() > 50){
-            $prop_title_length = " $prop_title_length_pref-50";    
-            }
-            elseif($title->length_utf8() > 25){
-                $prop_title_length = " $prop_title_length_pref-25";    
-                }
+    elseif($title->length_utf8() > 50){
+        $prop_title_length = " $prop_title_length_pref-50";    
+        }
+    elseif($title->length_utf8() > 25){
+        $prop_title_length = " $prop_title_length_pref-25";    
+        }
        
-    """<hgroup>\n""";
+    """<hgroup class="j-user-hgroup">\n""";
 
-        """<h1 class="j-user-name j-header-user-name">$p.journal</h1>\n""";
+        """<h1 class="j-user-name j-header-user-name" itemprop="author">$p.journal</h1>\n""";
     
-        """<h2 class="j-user-journal-title $prop_title_length">""";
+        """<h2 class="j-user-journal-title $prop_title_length" itemprop="name">""";
             var string friends_url = $p.view_url{"friends"};
             if ($p isa FriendsPage) {
                 print safe """<a href="$friends_url">$title</a>""";
                 }
-                else {
-                    print safe """<a href="$*base_url">$title</a>""";
-                   }
+            else {
+                print safe """<a href="$*base_url">$title</a>""";
+               }
         """</h2>\n""";
     
         if (not $p isa FriendsPage) {
-            print safe """<h3 class="j-user-journal-subtitle">$p.global_subtitle</h3>\n""";
+            print safe """<h3 class="j-user-journal-subtitle" itemprop="description">$p.global_subtitle</h3>\n""";
         }
     """</hgroup>\n
        </div>\n 
@@ -2091,14 +2276,14 @@ function page_layout_default (Page p) {
            <div class="j-l-page">
               <div class="j-l-page-inner">
                   <!-- begin page content-->  
-                  <header class="$*header_class">
+                  <header class="$*header_class" role="banner">
                         """; header_layout(); """
                   </header>
 
                   <div class="j-l-content">
                       <div class="j-l-content-inner">  
                           <section class="j-l-alpha">
-                            <div class="j-l-alpha-content">
+                            <div class="j-l-alpha-content" role="main">
                                 <div class="j-l-alpha-content-inner">
                                 """; $p->print_body(); """
                                 </div>        
@@ -2109,7 +2294,7 @@ function page_layout_default (Page p) {
                           """;
                           if ( not $*hide_sidebar ) {   
                               """
-                              <aside class="$*beta_class">
+                              <aside class="$*beta_class" role="complementary">
                                 <div class="j-l-beta-inner">
                                     """; sidebar_layout(); """
                                 </div>                                
@@ -2140,10 +2325,10 @@ function page_layout_headerin_alpha (Page p) {
                       <div class="j-l-content-inner">  
                           <!-- begin page content-->      
                           <section class="j-l-alpha">
-                            <header class="$*header_class">
+                            <header class="$*header_class" role="banner">
                                 """; header_layout(); """
                             </header>
-                            <div class="j-l-alpha-content">
+                            <div class="j-l-alpha-content" role="main">
                                 <div class="j-l-alpha-content-inner">
                                     """; $p->print_body(); """
                                 </div> 
@@ -2154,7 +2339,7 @@ function page_layout_headerin_alpha (Page p) {
                           """;
                           if ( not $*hide_sidebar ) {   
                               """
-                              <aside class="$*beta_class">
+                              <aside class="$*beta_class" role="complementary">
                                 <div class="j-l-beta-inner">
                                     """; sidebar_layout(); """
                                 </div>                                
@@ -2243,7 +2428,9 @@ function Page::print () {
     """
   
     </head>
-    <body class="$body_class lj-view-$.view" id="home">""";
+    <body class="$body_class lj-view-$.view" id="home" itemscope itemtype="http://www.schema.org/Blog">
+    <link itemprop="url" href="$*base_url" />
+    """;
         page_layout($this);
         $this->print_control_strip();    
     """</body>\n</html>""";
@@ -2253,7 +2440,7 @@ function Page::print () {
 #------------- Entry -------------
 
 function Page::print_entry_poster(Entry e) {
-    $e.poster->print();
+    """<span itemprop="author">"""; $e.poster->print(); """</span>""";
     if ( ($.view == "friends" and not $e.poster->equals($e.journal)) or ($e.reposted_by != "" and $e.journal.journal_type == "C"))  {
         " <span class=\"wrote\">$*text_user_posts_in</span> ";
         $e.journal->print();
@@ -2329,39 +2516,40 @@ function print_repost_user (Entry e){
 function CommentInfo::print_readlink {
     var Page p = get_page();
     var string show_screened = "";
-    if ($.screened) {
-        $show_screened = " <b>$*text_month_screened_comments</b>";
-    }
-    
     var string readlink_text = get_plural_phrase($.count, $p.view == "friends" ? "text_read_comments_friends" : "text_read_comments") + $show_screened;
-    
-    if($*readlink_as_count){
-        $readlink_text = string($.count);
-        if ($.screened) {
-            $readlink_text = "$readlink_text*";
-            }   
+    var string long_readlink_text = $readlink_text;
+
+    if( $*readlink_as_count ){
+        $readlink_text = string($.count);       
         } 
 
-    print safe "<a href=\"$.read_url\">$readlink_text</a>";
+    if ( $.screened ) {
+        $readlink_text = "$readlink_text<span>*</span>";
+        }      
+
+    print safe "<a href=\"$.read_url\" title=\"$long_readlink_text\">$readlink_text</a>";
 }
 
 function CommentInfo::print_postlink () {
     var Page p = get_page();
-        if ($p.view == "entry") {
-                $p->print_reply_link({"target" => "topcomment", "linktext" => $*text_post_comment, "reply_url" => $.post_url+"#$*text_addcomment_id"});
-        } else {
-        print safe "<a href=\"$.post_url\">"+($p.view == "friends" ? $*text_post_comment_friends : $*text_post_comment)+"</a>";
-       }
+    var string postlink_text = $p.view == "friends" ? $*text_post_comment_friends : $*text_post_comment;
+
+    if ( $p.view == "entry" ) {
+            $p->print_reply_link({"target" => "topcomment", "linktext" => $*text_post_comment, "reply_url" => $.post_url+"#$*text_addcomment_id"});
+        } 
+    else {
+        print safe "<a href=\"$.post_url\" title=\"$postlink_text\">$postlink_text</a>";
+        }
 }
 
 function CommentInfo::print () {
 
-    if ($.show_readlink)   {
+    if ( $.show_readlink )   {
         """<li class="j-e-nav-item j-e-nav-item-comments">"""; $this->print_readlink(); "</li>\n";
-    }
-    if ($.show_postlink) {
+        }   
+    if ( $.show_postlink ) {
         """<li class="j-e-nav-item j-e-nav-item-reply">"""; $this->print_postlink(); "</li>\n";
-    }
+        }
 
 }
 
@@ -2372,7 +2560,9 @@ function print_link_button( Entry e, string key ){
             var string url = $link.url;
             var string text = $link.caption;
             var Image icon = $link.icon;
-            print safe """ <a href="$url" class="j-e-buttons-item j-e-buttons-item-$key" title="$text">$icon</a>\n""";  
+            var string link_extra_data = get_extra_by_selector ( $link.extra, "data" );
+            var string link_extra_class = $link.extra{"class"};
+            print safe """ <a href="$url" class="j-e-buttons-item j-e-buttons-item-$key $link_extra_class" title="$text" $link_extra_data>$icon</a>\n""";  
             $link->print_raw();
         } 
 }
@@ -2403,6 +2593,7 @@ function Entry::print_linkbar () {
     var Link link;
     var string url = "";
     var string text = "";
+    var string link_extra = "";
     
     var bool show_linkbar = true;
     var bool is_entrypage = ($p.view == "entry" or $p.view == "reply");
@@ -2440,12 +2631,13 @@ function Entry::print_linkbar () {
                 if (defined $link) {
                     $url = $link.url;
                     $text = $link_caption{$link_key} != "" ? $link_caption{$link_key} : $link.caption;
-                    print safe """ <li class="j-e-nav-item j-e-nav-item-$link_key"><a href="$url" title="$text">$text</a></li>\n""";  
+                    $link_extra = get_extra ( $link.extra );
+                    print safe """ <li class="j-e-nav-item j-e-nav-item-$link_key"><a href="$url" title="$text" $link_extra>$text</a></li>\n""";  
                     $link->print_raw();
             }
         }
         # need add LINK as a text variable
-        print """<li class="j-e-nav-item j-e-nav-item-permalink"><a href="$.permalink_url">$*text_permalink</a></li>\n""";
+        print """<li class="j-e-nav-item j-e-nav-item-permalink"><a href="$.permalink_url" title="$*text_permalink">$*text_permalink</a></li>\n""";
         println "</ul>\n</div>";
     
     }
@@ -2466,31 +2658,43 @@ function _dateTime (Date time, bool only_date, string context) : string {
 
    if($*date_format != "" and $only_date == false){
         #if custom format not empty
-        $result = $time->date_format($*date_format);
-        }
-        elseif ($*lang_current == "ru") {
+        $date_format = $time->date_format($*date_format);
+
+        if( not $*date_format->contains("min") ) {
+            $time_format = $time->date_format("%%hh%%:%%min%% %%a%%m");
+
+            if ($*lang_current == "ru") {
+                $time_format = $time->date_format("%%H%%:%%min%%");
+                }
+
+            $time_format = """<span class="j-$context-date-comma">,</span> <span class="j-$context-date-time">$time_format</span>"""; 
+            }       
         
-            var string[] months = ["","января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
-            $date_format = $time->date_format("%%d%% ${months[$month]} %%yyyy%%");
-            $time_format = $time->date_format("%%H%%:%%min%%");
+        $result = """<span class="j-$context-date-day">$date_format</span>""" + $time_format;
+        }
+    elseif ($*lang_current == "ru") {
+    
+        var string[] months = ["","января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+        $date_format = $time->date_format("%%d%% ${months[$month]} %%yyyy%%");
+        $time_format = $time->date_format("%%H%%:%%min%%");
+
+        $result = """<span class="j-$context-date-day">$date_format</span>""";
+
+        if (string($currentDate.year) == $time->date_format("%%yyyy%%") and $only_date == false) {
+            #$format = "%%d%% ${months[$month]} %%yyyy%%, %%H%%:%%min%%";
+            $result = """$result<span class="j-$context-date-comma">,</span> <span class="j-$context-date-time">$time_format</span>""";
+            }
+        } 
+    else {
+            $date_format = $time->date_format("long");
+            $time_format = $time->date_format("%%hh%%:%%min%% %%a%%m");
 
             $result = """<span class="j-$context-date-day">$date_format</span>""";
 
-            if (string($currentDate.year) == $time->date_format("%%yyyy%%") and $only_date == false) {
-                #$format = "%%d%% ${months[$month]} %%yyyy%%, %%H%%:%%min%%";
-                $result = """$result<span class="j-$context-date-comma">,</span> <span class="j-$context-date-time">$time_format</span>""";
-                }
-
-            } else {
-                    $date_format = $time->date_format("long");
-                    $time_format = $time->date_format("%%hh%%:%%min%% %%a%%m");
-
-                    $result = """<span class="j-$context-date-day">$date_format</span>""";
-
-                    if($only_date == false){
-                         $result = """$result<span class="j-$context-date-comma">,</span> <span class="j-$context-date-time">$time_format</span>""";
-                         }
-                }
+            if($only_date == false){
+                 $result = """$result<span class="j-$context-date-comma">,</span> <span class="j-$context-date-time">$time_format</span>""";
+                 }
+        }
 
     return $result;
 }
@@ -2501,6 +2705,11 @@ function _dateTime (Date time, string context) : string {
     return $result;
 
     }
+
+function machine_readable_date ( DateTime date ) : string {
+    var string datetime = $date->date_format("%%yyyy%%-%%mm%%-%%dd%%");
+    return $datetime;
+}
 
 function post_status_icon(Entry e) {
 
@@ -2581,37 +2790,46 @@ if (size $.metadata > 0 or (size($.tags) > 0) and ($*tags_aware)) {
 function entry_class (Entry e) : string {
     var Page p = get_page();
     var string e_class = "j-e";
+    var string e_class_out = "$e_class";
 
-    if ($p.view == "entry" or $p.view == "reply"){
-        $e_class = "$e_class j-e-view-$p.view";
-        }
-
+    $e_class_out = $e_class_out + " $e_class-view-$p.view";
+    
     if ($e.repost) {
-        $e_class = "$e_class $e_class-repost"; 
+        $e_class_out = $e_class_out + " $e_class-repost"; 
         }
-    return $e_class;    
+
+    if ($e.sticky) {
+        $e_class_out = $e_class_out + " $e_class-sticky";
+        }
+            
+    return $e_class_out;    
     }
 
+function print_entry_date ( DateTime e_time) {
+    var string datetime = machine_readable_date ( $e_time );
+    """<time class="j-e-date" datetime="$datetime" itemprop="dateCreated">""" + _dateTime ($e_time, "e") + """</time>\n""";
+}
 
 function print_entry_default(Entry e, string e_class) {
     var Page p = get_page();
     var string id = " id=\"entry-$e.journal.username-$e.itemid\"";
-    var string datetime = $e.time->date_format("%%yyyy%%-%%mm%%-%%dd%%");
+    
 
-    """<article $id class="$e_class">\n""";
+    """<article $id class="$e_class" itemscope itemtype="http://www.schema.org/BlogPosting">
+    <link itemprop="url" href="$e.permalink_url" />\n""";
 
-    """<time class="j-e-date" datetime="$datetime">""" + _dateTime ($e.time, "e") + """</time>\n""";
+    print_entry_date ( $e.time );
     
     print_author($e);
 
-    """<h3 class="j-e-title">\n""";
+    """<h3 class="j-e-title" itemprop="headline">\n""";
         post_status_icon($e);
         """<a href="$e.permalink_url">"""; post_subject($e); """</a>\n""";
     "</h3>\n";
    
     print_repost_user($e);
 
-    """<div class="j-e-text">\n""";
+    """<div class="j-e-text" itemprop="text">\n""";
         $e->print_text();
     """</div>\n""";
     
@@ -2626,19 +2844,21 @@ function print_entry_title_date(Entry e, string e_class) {
     var Page p = get_page();
     var string id = " id=\"entry-$e.journal.username-$e.itemid\"";
     
-    """<article $id class="$e_class">\n""";
+    """<article $id class="$e_class" itemscope itemtype="http://www.schema.org/BlogPosting">
+    <link itemprop="url" href="$e.permalink_url" />\n""";
 
-    """<h3 class="j-e-title">\n""";
+    """<h3 class="j-e-title" itemprop="headline">\n""";
         post_status_icon($e);
         """<a href="$e.permalink_url">"""; post_subject($e); """</a>\n""";
     "</h3>\n";
-    """<time class="j-e-date">""" + _dateTime ($e.time, "e") + """</time>\n""";
+
+    print_entry_date ( $e.time );
 
     print_author ($e);
 
     print_repost_user($e);
    
-    """<div class="j-e-text">\n""";
+    """<div class="j-e-text" itemprop="text">\n""";
       $e->print_text();
     """</div>\n""";
  
@@ -2653,20 +2873,21 @@ function print_entry_author_date_title (Entry e, string e_class) {
     var Page p = get_page();
     var string id = " id=\"entry-$e.journal.username-$e.itemid\"";
     
-    """<article $id class="$e_class">\n""";
+    """<article $id class="$e_class" itemscope itemtype="http://www.schema.org/BlogPosting">
+    <link itemprop="url" href="$e.permalink_url" />\n""";
 
     print_author ($e);
 
-    """<time class="j-e-date">""" + _dateTime ($e.time, "e") + """</time>\n""";
+    print_entry_date ( $e.time );
 
-    """<h3 class="j-e-title">\n""";
+    """<h3 class="j-e-title" itemprop="headline">\n""";
         post_status_icon($e);
         """<a href="$e.permalink_url">"""; post_subject($e); """</a>\n""";
     "</h3>\n";
     
     print_repost_user($e);
    
-    """<div class="j-e-text">\n""";
+    """<div class="j-e-text" itemprop="text">\n""";
       $e->print_text();
     """</div>\n""";
  
@@ -2751,9 +2972,9 @@ function YearPage::print_year_links() {
             }
         """<li class="$li_class">""";
             if ($y.displayed) {
-                """$y.year\n""";
+                """$y.year""";
             } else {
-                """<a href="$y.url">$y.year</a>\n""";
+                """<a href="$y.url">$y.year</a>""";
             }
         """</li>\n""";
     }
@@ -2777,13 +2998,13 @@ function MonthDay::print_subjectlist() {
         post_status_icon($e);
         
         if ($e.subject != "") {
-            " <a href=\"$e.permalink_url\">$e.subject</a>";
+            """ <a href=\"$e.permalink_url\" class="j-day-subject-link">$e.subject</a>""";
             } 
             else {
                  if($*text_nosubject == ""){
                     $*text_nosubject = $*text_nosubject_month;
                     }
-                print safe " <i><a href=\"$e.permalink_url\">$*text_nosubject</a></i>";
+                """ <i><a href=\"$e.permalink_url\" class="j-day-subject-link">$*text_nosubject</a></i>""";
                 }
         
         if ($e.comments.count > 0 or $e.comments.screened) {
@@ -2973,9 +3194,7 @@ function EntryPage::print_body {
     var Page p = get_page();
     var Entry e = $.entry;
 
-    if( viewer_logged_in() ) {
-        print_linkbar_buttons($e);
-        }
+    print_linkbar_buttons($e);
     
     $this->print_entry($e);
 
@@ -3058,28 +3277,33 @@ function print_comment_body(Comment c) {
         $commdate = """$commdate <span class="j-c-date-local">($*text_comment_local_time)</span>""";
         }
 
+    var string datetime = machine_readable_date ( $c.time );    
+
     var string evenodd = $c.depth % 2 ? "j-p-odd" : "j-p-even";
     var string hide_controls = $*hide_comment_controls ? " j-p-hide-comment-controls" : "";
 
     var string commenthead_class = "j-c-head " + $evenodd + $hide_controls;
 
+    var string itemprop_name = "name";
+
     if (defined $c.userpic and $*comment_userpic_style != "off") {
         var int w = $c.userpic.width;
         var int h = $c.userpic.height;
-        """<div class="$commenthead_class">\n<div class="j-user-pic j-c-user-pic">\n<img src="$c.userpic.url" width="$w" height="$h" alt="$c.userpic.alttext" />\n</div>\n""";
+        """<div class="$commenthead_class">\n<div class="j-user-pic j-c-user-pic">\n<img src="$c.userpic.url" width="$w" height="$h" alt="$c.userpic.alttext" itemprop="image"/>\n</div>\n""";
         } else {
             """<div class="$commenthead_class j-p-no-userpic">\n""";
             }
 
      """<div class="j-c-head-inner">\n""";
         if (defined $c.subject_icon or $c.subject != "") {
-            """<h5 class="j-c-subject">$c.subject_icon$c.subject</h5>\n""";
+            """<h5 class="j-c-subject" itemprop="$itemprop_name">$c.subject_icon$c.subject</h5>\n""";
+            $itemprop_name = "";
         }
-        """<div class="j-c-poster">\n$poster""";
+        """<div class="j-c-poster" itemprop="creator">\n$poster""";
             if ($c.metadata{"poster_ip"}) { " <span class=\"j-c-user-ip\">(" + $c.metadata{"poster_ip"} + ")</span>"; }
         """</div>\n""";
         
-        """<time class="j-c-date">$commdate</time>""";
+        """<time class="j-c-date" datetime="$datetime" itemprop="commentTime startDate">$commdate</time>""";
 
         if ($p.view == "entry" or $p.view == "reply") {
             """<span class="j-c-controls">\n""";
@@ -3095,7 +3319,7 @@ function print_comment_body(Comment c) {
         }
         "</div>\n";
     "</div>\n";
-    """<div class="j-c-text">"""; $c->print_text(); "</div>\n";
+    """<div class="j-c-text" itemprop="commentText $itemprop_name">"""; $c->print_text(); "</div>\n";
 }
 
 
@@ -3104,7 +3328,7 @@ function EntryPage::print_comment_full (Comment c) {
     var Page p = get_page();
     var string poster = defined $c.poster ? $c.poster->as_string() : "<i>$*text_poster_anonymous</i>";
     var string commdate = _dateTime($c.time, "c");
-    
+
     print_comment_body($c);
 
     """<div class="j-nav j-c-nav"><ul class="j-c-nav-list">\n""";
@@ -3134,11 +3358,15 @@ function EntryPage::print_comment (Comment c) {
 
     var string comment_class = "j-c";
     var string c_id = "id=\"$c.dom_id\"";
+    var string itemscope = "itemscope itemtype=\"http://www.schema.org/UserComments\"";
+    var string itemscope_link = "<link itemprop=\"url\" href=\"$c.permalink_url\" />";
 
     if ($c.full) {
             $comment_class = $comment_class + " j-c-full";
         } else {
             $comment_class = $comment_class + " j-c-partial";
+            $itemscope = "";
+            $itemscope_link  = "";
         }
 
     if ($c.frozen) {
@@ -3155,7 +3383,8 @@ function EntryPage::print_comment (Comment c) {
             "</article>\n";
     } else {
         var int indent = ($c.depth - 1) * 25;
-        """<article $c_id class="$comment_class" style="margin-left: ${indent}px;">\n""";
+        """<article $c_id class="$comment_class" style="margin-left: ${indent}px;" $itemscope>\n
+        $itemscope_link\n""";
         if ($c.spam) {
             if (size $c.replies > 0) {
                 "(SPAM)";
